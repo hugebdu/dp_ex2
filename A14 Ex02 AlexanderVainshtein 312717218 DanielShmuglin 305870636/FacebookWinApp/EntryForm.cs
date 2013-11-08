@@ -46,9 +46,9 @@ namespace Ex2.FacebookApp
                     MessageBox.Show(loginResult.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Ooooops! Error occured, please retry");
+                MessageBox.Show("Ooooops! Error occured! " + ex.Message);
             }
             finally
             {

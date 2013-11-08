@@ -16,10 +16,7 @@ namespace Ex2.FacebookApp
     {
         public class PostShortInfo
         {
-            public string Author { get; set; }
-            public string Text { get; set; }
-            public Image Userpic { get; set; }
-            public long LikesCount { get; set; }
+            public Post Post { get; set; }
         }
 
         private User m_User;
@@ -31,9 +28,6 @@ namespace Ex2.FacebookApp
             m_User = i_LoginResult.LoggedInUser;
             InitializeComponent();
             initializeTimer();
-            m_FeedRefreshTimer.Interval = 30000;
-            m_FeedRefreshTimer.Tick += new EventHandler(m_FeedRefreshTimer_Tick);
-            m_FeedRefreshTimer.Start();
         }
 
         private void initializeTimer()
@@ -45,7 +39,7 @@ namespace Ex2.FacebookApp
         
         private void MainWin_Load(object sender, EventArgs e)
         {
-            new Task(loadNewsFeed).Start();
+            loadNewFeedAsync();
         }
 
         void m_FeedRefreshTimer_Tick(object sender, EventArgs e)
@@ -53,41 +47,51 @@ namespace Ex2.FacebookApp
             loadNewsFeed();
         }
 
+        private void loadNewFeedAsync()
+        {
+            new Task(loadNewsFeed).Start();        
+        }
+
         private void loadNewsFeed()
         {
             var postsInfo = m_User.NewsFeed.Select(post => new PostShortInfo()
             {
-                Author = post.From.Name,
-                Text = post.Message,
-                Userpic = post.From.ImageNormal,
-                LikesCount = post.LikesCount
+                Post = post
             }).ToList();
 
             m_PostItemTemplate.DataBindings.Clear();
-            m_PostItemTemplate.DataBindings.Add("Author", postsInfo, "Author");
-            m_PostItemTemplate.DataBindings.Add("PostText", postsInfo, "Text");
-            m_PostItemTemplate.DataBindings.Add("Userpic", postsInfo, "Userpic");
-            m_PostItemTemplate.DataBindings.Add("LikesCount", postsInfo, "LikesCount");
-            //m_PostItemTemplate.DataBindings.Add("Author", m_User.NewsFeed, "From.Name");
-            //m_PostItemTemplate.DataBindings.Add("Userpic", m_User.NewsFeed, "From.ImageNormal");
-            //m_PostItemTemplate.DataBindings.Add("PostText", m_User.NewsFeed, "Message");
-            //postRepeater.DataSource = m_User.NewsFeed;
-
-            //BindingSource bindingSource1 = new BindingSource();
-            //bindingSource1.DataSource = items;
-            //textBox1.DataBindings.Add("Text", bindingSource1, "FirstName");
-            //label1.DataBindings.Add("Text", bindingSource1, "LastName");
-            //postRepeater.DataSource = bindingSource1;
-
-            // postRepeater.DataBindings
+            m_PostItemTemplate.DataBindings.Add("Post", postsInfo, "Post");
 
             if (postRepeater.InvokeRequired)
             {
-                postRepeater.Invoke(new Action(() => postRepeater.DataSource = postsInfo ));
+                postRepeater.Invoke(new Action(() => postRepeater.DataSource = postsInfo));
             }
             else
             {
                 postRepeater.DataSource = postsInfo;
+            }
+        }
+
+        private void m_RefreshMenuItem_Click(object sender, EventArgs e)
+        {
+            loadNewFeedAsync();
+        }
+
+        private void m_BookmarkItToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var sourceControl = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as PostItemControl;
+            if (sourceControl != null && sourceControl.Post != null)
+            {
+                MessageBox.Show("Bookmarked!");
+                try
+                {
+                    var ans = FacebookWrapper.FacebookService.GetObject<Post>(sourceControl.Post.Id);
+                    MessageBox.Show(ans.Caption);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }

@@ -73,6 +73,7 @@
             this.m_LikesCountLink.TabIndex = 4;
             this.m_LikesCountLink.TabStop = true;
             this.m_LikesCountLink.Text = "Likes";
+            this.m_LikesCountLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.m_LikesCountLink_LinkClicked);
             // 
             // m_PostBody
             // 

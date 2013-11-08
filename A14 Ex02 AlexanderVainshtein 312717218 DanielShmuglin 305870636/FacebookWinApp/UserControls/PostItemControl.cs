@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FacebookWrapper.ObjectModel;
 
 namespace Ex2.FacebookApp.UserControls
 {
@@ -16,55 +17,50 @@ namespace Ex2.FacebookApp.UserControls
             InitializeComponent();
         }
 
-        public string Author
+        private Post m_Post;
+        public Post Post
         {
             get
             {
-                return
-                  m_Name.Text;
+                return m_Post;
             }
             set
             {
-                m_Name.Text = value;
+                if (m_Post != value)
+                {
+                    m_Post = value;
+                    updateView();
+                }
             }
         }
 
-        public string PostText
+
+        private void updateView()
         {
-            get
+            long likesCount = 0;
+            if (m_Post != null)
             {
-                return
-                  m_PostBody.Text;
+                if ((m_Post as PostedItem).LikedBy != null)
+                {
+                    likesCount = (m_Post as PostedItem).LikedBy.Count;
+                }
+                else
+                {
+                    likesCount = m_Post.LikesCount;
+                }
             }
-            set
-            {
-                m_PostBody.Text = value;
-            }
+
+            m_PostBody.Text = m_Post == null ? string.Empty : m_Post.Message;
+            m_Name.Text = m_Post == null || m_Post.From == null ? string.Empty : m_Post.From.Name;
+            m_LikesCountLink.Text = likesCount.ToString();
+            m_UserPicture.Image = m_Post == null || m_Post.From == null ? null : m_Post.From.ImageNormal;
         }
 
-        public Image Userpic
+        private void m_LikesCountLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            get
-            {
-                return m_UserPicture.Image;
-            }
-            set
-            {
-                m_UserPicture.Image = value;
-            }
-        }
-
-        public long LikesCount
-        {
-            get
-            {
-                long count;
-                long.TryParse(m_LikesCountLink.Text, out count);
-                return count;
-            }
-            set
-            {
-                m_LikesCountLink.Text = value.ToString();
+            if (m_Post != null)
+            { 
+            
             }
         }
     }
