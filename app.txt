@@ -1,3 +1,7 @@
 DP.312717218.305870636
 App ID:	537339166355791
 App Secret:	7e5284185813021c8c9ab6b236508ce0
+
+
+design.patterns
+patternsdesign
