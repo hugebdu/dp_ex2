@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FacebookWinApp", "FacebookWinApp\FacebookWinApp.csproj", "{4F3E17D4-4781-4FB3-8C95-F2E146BC22E4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F3E17D4-4781-4FB3-8C95-F2E146BC22E4}.Debug|x86.ActiveCfg = Debug|x86
+		{4F3E17D4-4781-4FB3-8C95-F2E146BC22E4}.Debug|x86.Build.0 = Debug|x86
+		{4F3E17D4-4781-4FB3-8C95-F2E146BC22E4}.Release|x86.ActiveCfg = Release|x86
+		{4F3E17D4-4781-4FB3-8C95-F2E146BC22E4}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
