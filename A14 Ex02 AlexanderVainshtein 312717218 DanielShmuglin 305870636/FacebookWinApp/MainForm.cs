@@ -65,7 +65,7 @@ namespace Ex2.FacebookApp
                 Post = post
             }).ToList();
 
-            updatePostRepeater(postRepeater, m_PostItemTemplate, posts);
+            updatePostRepeater(m_NewsFeedRepeater, m_PostItemTemplate, posts);
         }
 
         private void loadFavoritesAsync()
