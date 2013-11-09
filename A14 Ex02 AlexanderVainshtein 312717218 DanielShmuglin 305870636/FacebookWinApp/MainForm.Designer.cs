@@ -44,8 +44,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.dataRepeater1 = new Microsoft.VisualBasic.PowerPacks.DataRepeater();
-            this.postItemControl1 = new Ex2.FacebookApp.UserControls.PostItemControl();
+            this.m_FavoritesRepeater = new Microsoft.VisualBasic.PowerPacks.DataRepeater();
+            this.m_FavoritePostTemplate = new Ex2.FacebookApp.UserControls.PostItemControl();
+            this.reloadFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_NewsFeedGroup.SuspendLayout();
             this.postRepeater.ItemTemplate.SuspendLayout();
             this.postRepeater.SuspendLayout();
@@ -57,8 +58,8 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.dataRepeater1.ItemTemplate.SuspendLayout();
-            this.dataRepeater1.SuspendLayout();
+            this.m_FavoritesRepeater.ItemTemplate.SuspendLayout();
+            this.m_FavoritesRepeater.SuspendLayout();
             this.SuspendLayout();
             // 
             // m_NewsFeedGroup
@@ -134,18 +135,20 @@
             // m_RefreshMenuItem
             // 
             this.m_RefreshMenuItem.Name = "m_RefreshMenuItem";
-            this.m_RefreshMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.m_RefreshMenuItem.Size = new System.Drawing.Size(152, 22);
             this.m_RefreshMenuItem.Text = "Refresh";
             this.m_RefreshMenuItem.Click += new System.EventHandler(this.m_RefreshMenuItem_Click);
             // 
             // signOutToolStripMenuItem
             // 
             this.signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
-            this.signOutToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.signOutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.signOutToolStripMenuItem.Text = "Sign out";
             // 
             // toolsToolStripMenuItem
             // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.reloadFavoritesToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -187,7 +190,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.dataRepeater1);
+            this.tabPage2.Controls.Add(this.m_FavoritesRepeater);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -196,28 +199,35 @@
             this.tabPage2.Text = "Favorites";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // dataRepeater1
+            // m_FavoritesRepeater
             // 
-            this.dataRepeater1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_FavoritesRepeater.Dock = System.Windows.Forms.DockStyle.Fill;
             // 
-            // dataRepeater1.ItemTemplate
+            // m_FavoritesRepeater.ItemTemplate
             // 
-            this.dataRepeater1.ItemTemplate.Controls.Add(this.postItemControl1);
-            this.dataRepeater1.ItemTemplate.Size = new System.Drawing.Size(647, 124);
-            this.dataRepeater1.Location = new System.Drawing.Point(3, 3);
-            this.dataRepeater1.Name = "dataRepeater1";
-            this.dataRepeater1.Size = new System.Drawing.Size(655, 356);
-            this.dataRepeater1.TabIndex = 0;
-            this.dataRepeater1.Text = "dataRepeater1";
+            this.m_FavoritesRepeater.ItemTemplate.Controls.Add(this.m_FavoritePostTemplate);
+            this.m_FavoritesRepeater.ItemTemplate.Size = new System.Drawing.Size(647, 124);
+            this.m_FavoritesRepeater.Location = new System.Drawing.Point(3, 3);
+            this.m_FavoritesRepeater.Name = "m_FavoritesRepeater";
+            this.m_FavoritesRepeater.Size = new System.Drawing.Size(655, 356);
+            this.m_FavoritesRepeater.TabIndex = 0;
+            this.m_FavoritesRepeater.Text = "dataRepeater1";
             // 
-            // postItemControl1
+            // m_FavoritePostTemplate
             // 
-            this.postItemControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.postItemControl1.Location = new System.Drawing.Point(0, 0);
-            this.postItemControl1.Name = "postItemControl1";
-            this.postItemControl1.Post = null;
-            this.postItemControl1.Size = new System.Drawing.Size(632, 123);
-            this.postItemControl1.TabIndex = 0;
+            this.m_FavoritePostTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_FavoritePostTemplate.Location = new System.Drawing.Point(0, 0);
+            this.m_FavoritePostTemplate.Name = "m_FavoritePostTemplate";
+            this.m_FavoritePostTemplate.Post = null;
+            this.m_FavoritePostTemplate.Size = new System.Drawing.Size(632, 123);
+            this.m_FavoritePostTemplate.TabIndex = 0;
+            // 
+            // reloadFavoritesToolStripMenuItem
+            // 
+            this.reloadFavoritesToolStripMenuItem.Name = "reloadFavoritesToolStripMenuItem";
+            this.reloadFavoritesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.reloadFavoritesToolStripMenuItem.Text = "Reload favorites";
+            this.reloadFavoritesToolStripMenuItem.Click += new System.EventHandler(this.reloadFavoritesToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -243,8 +253,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.dataRepeater1.ItemTemplate.ResumeLayout(false);
-            this.dataRepeater1.ResumeLayout(false);
+            this.m_FavoritesRepeater.ItemTemplate.ResumeLayout(false);
+            this.m_FavoritesRepeater.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -266,7 +276,8 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private Microsoft.VisualBasic.PowerPacks.DataRepeater dataRepeater1;
-        private UserControls.PostItemControl postItemControl1;
+        private Microsoft.VisualBasic.PowerPacks.DataRepeater m_FavoritesRepeater;
+        private UserControls.PostItemControl m_FavoritePostTemplate;
+        private System.Windows.Forms.ToolStripMenuItem reloadFavoritesToolStripMenuItem;
     }
 }

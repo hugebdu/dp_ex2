@@ -12,6 +12,8 @@ namespace Ex2.FacebookApp.UserControls
 {
     public partial class PostItemControl : UserControl
     {
+        private LinkViewForm m_LinkViewForm;
+
         public PostItemControl()
         {
             InitializeComponent();
@@ -59,9 +61,27 @@ namespace Ex2.FacebookApp.UserControls
         private void m_LikesCountLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (m_Post != null)
-            { 
-            
+            {
+
             }
+        }
+
+        private void m_PostBody_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            ensureBrowserExists();
+            m_LinkViewForm.Url = e.LinkText;
+            m_LinkViewForm.Show();
+        }
+
+        private void ensureBrowserExists()
+        {
+            if (m_LinkViewForm != null)
+            {
+                return;
+            }
+
+            m_LinkViewForm = new LinkViewForm();
+            m_LinkViewForm.FormClosed += (sender, e) => m_LinkViewForm = null;
         }
     }
 }

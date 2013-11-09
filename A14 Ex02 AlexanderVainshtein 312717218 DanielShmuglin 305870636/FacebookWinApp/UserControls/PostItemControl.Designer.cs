@@ -85,6 +85,7 @@
             this.m_PostBody.Size = new System.Drawing.Size(354, 100);
             this.m_PostBody.TabIndex = 0;
             this.m_PostBody.Text = "";
+            this.m_PostBody.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.m_PostBody_LinkClicked);
             // 
             // PostItemControl
             // 
@@ -93,6 +94,7 @@
             this.Controls.Add(this.m_BodyPannel);
             this.Controls.Add(this.m_Name);
             this.Controls.Add(this.m_UserPicture);
+            this.DoubleBuffered = true;
             this.Name = "PostItemControl";
             this.Size = new System.Drawing.Size(545, 145);
             ((System.ComponentModel.ISupportInitialize)(this.m_UserPicture)).EndInit();
@@ -106,9 +108,9 @@
         #endregion
 
         private System.Windows.Forms.PictureBox m_UserPicture;
-        public System.Windows.Forms.LinkLabel m_Name;
         private System.Windows.Forms.Panel m_BodyPannel;
         private System.Windows.Forms.LinkLabel m_LikesCountLink;
         private System.Windows.Forms.RichTextBox m_PostBody;
+        private System.Windows.Forms.LinkLabel m_Name;
     }
 }
