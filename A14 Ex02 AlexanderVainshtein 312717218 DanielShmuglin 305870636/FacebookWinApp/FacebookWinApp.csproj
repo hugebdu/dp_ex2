@@ -63,6 +63,10 @@
     </Compile>
     <Compile Include="Favorites\FavoriteItem.cs" />
     <Compile Include="Favorites\FavoritesManager.cs" />
+    <Compile Include="Storage\IStorableItem.cs" />
+    <Compile Include="Storage\XmlFileStorage.cs" />
+    <Compile Include="Storage\IDataStorage.cs" />
+    <Compile Include="Storage\SimpleStorableItem.cs" />
     <Compile Include="LinkViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,6 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Forms\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Delete.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

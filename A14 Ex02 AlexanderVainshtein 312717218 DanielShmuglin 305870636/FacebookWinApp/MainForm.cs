@@ -23,7 +23,7 @@ namespace Ex2.FacebookApp
 
         private User m_User;
 
-        private List<string> m_FavoritePosts;
+        private readonly FavoritesManager m_FavoritesManager = new FavoritesManager();
 
         private readonly Timer m_FeedRefreshTimer = new Timer();
 
@@ -44,7 +44,6 @@ namespace Ex2.FacebookApp
         private void MainWin_Load(object sender, EventArgs e)
         {
             loadNewFeedAsync();
-            loadFavoritesFromPerstitence();
             loadFavoritesAsync();
         }
 
@@ -75,13 +74,7 @@ namespace Ex2.FacebookApp
 
         private void loadFavorites()
         {
-            var posts = m_FavoritePosts.Select(
-                id =>
-                {
-                    var post = FacebookWrapper.FacebookService.GetObject<Post>(id);
-                    return new PostWrapper { Post = post };
-                }).ToList();
-
+            var posts = m_FavoritesManager.GetFavoritePosts().Select(post => new PostWrapper { Post = post }).ToList();
             updatePostRepeater(m_FavoritesRepeater, m_FavoritePostTemplate, posts);
         }
 
@@ -110,54 +103,25 @@ namespace Ex2.FacebookApp
             var sourceControl = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as PostItemControl;
             if (sourceControl != null && sourceControl.Post != null)
             {
-                if (!m_FavoritePosts.Contains(sourceControl.Post.Id))
-                {
-                    m_FavoritePosts.Add(sourceControl.Post.Id);
-                    loadFavoritesAsync();
-                    saveFavoritesToPerstitence();
-                }
+                m_FavoritesManager.MarkFavorite(sourceControl.Post);
+                loadFavoritesAsync();
             }
         }
 
-        private const string k_FavoritesPersistence = @"favorites.xml";
-        
-        private void saveFavoritesToPerstitence()
+        private void removeFromFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (var writer = new StreamWriter(k_FavoritesPersistence))
+            var sourceControl = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as PostItemControl;
+            if (sourceControl != null && sourceControl.Post != null)
             {
-                var serializer = new XmlSerializer(m_FavoritePosts.GetType());
-                serializer.Serialize(writer, m_FavoritePosts);
-            }
-        }
-
-        private void loadFavoritesFromPerstitence()
-        {
-            if (File.Exists(k_FavoritesPersistence))
-            {
-                using (var reader = new StreamReader(k_FavoritesPersistence))
-                {
-                    var serializer = new XmlSerializer(typeof(List<string>));
-                    m_FavoritePosts = serializer.Deserialize(reader) as List<string>;
-                }
-            }
-
-            if (m_FavoritePosts == null)
-            {
-                m_FavoritePosts = new List<string>();
+                m_FavoritesManager.UnmarkFavorite(sourceControl.Post);
+                loadFavoritesAsync();
             }
         }
 
         private void reloadFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
-            {
-                loadFavoritesFromPerstitence();
-                loadFavoritesAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            loadFavoritesAsync();
         }
+
     }
 }

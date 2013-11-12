@@ -42,7 +42,9 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.m_FavoritesRepeater = new Microsoft.VisualBasic.PowerPacks.DataRepeater();
+            this.favoritePostMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.m_BookmarkItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_PostItemTemplate = new Ex2.FacebookApp.UserControls.PostItemControl();
             this.m_FavoritePostTemplate = new Ex2.FacebookApp.UserControls.PostItemControl();
             this.m_NewsFeedRepeater.ItemTemplate.SuspendLayout();
@@ -54,6 +56,7 @@
             this.tabPage2.SuspendLayout();
             this.m_FavoritesRepeater.ItemTemplate.SuspendLayout();
             this.m_FavoritesRepeater.SuspendLayout();
+            this.favoritePostMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // m_NewsFeedRepeater
@@ -99,14 +102,14 @@
             // m_RefreshMenuItem
             // 
             this.m_RefreshMenuItem.Name = "m_RefreshMenuItem";
-            this.m_RefreshMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.m_RefreshMenuItem.Size = new System.Drawing.Size(118, 22);
             this.m_RefreshMenuItem.Text = "Refresh";
             this.m_RefreshMenuItem.Click += new System.EventHandler(this.m_RefreshMenuItem_Click);
             // 
             // signOutToolStripMenuItem
             // 
             this.signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
-            this.signOutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.signOutToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
             this.signOutToolStripMenuItem.Text = "Sign out";
             // 
             // toolsToolStripMenuItem
@@ -171,6 +174,13 @@
             this.m_FavoritesRepeater.TabIndex = 0;
             this.m_FavoritesRepeater.Text = "dataRepeater1";
             // 
+            // favoritePostMenuStrip
+            // 
+            this.favoritePostMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeFromFavoritesToolStripMenuItem});
+            this.favoritePostMenuStrip.Name = "favoritePostMenuStrip";
+            this.favoritePostMenuStrip.Size = new System.Drawing.Size(195, 48);
+            // 
             // m_BookmarkItToolStripMenuItem
             // 
             this.m_BookmarkItToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("m_BookmarkItToolStripMenuItem.Image")));
@@ -178,6 +188,14 @@
             this.m_BookmarkItToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.m_BookmarkItToolStripMenuItem.Text = "Bookmark it!";
             this.m_BookmarkItToolStripMenuItem.Click += new System.EventHandler(this.m_BookmarkItToolStripMenuItem_Click);
+            // 
+            // removeFromFavoritesToolStripMenuItem
+            // 
+            this.removeFromFavoritesToolStripMenuItem.Image = global::Ex2.FacebookApp.Properties.Resources.Delete;
+            this.removeFromFavoritesToolStripMenuItem.Name = "removeFromFavoritesToolStripMenuItem";
+            this.removeFromFavoritesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
+            this.removeFromFavoritesToolStripMenuItem.Text = "Remove from favorites";
+            this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
             // 
             // m_PostItemTemplate
             // 
@@ -192,6 +210,7 @@
             // 
             // m_FavoritePostTemplate
             // 
+            this.m_FavoritePostTemplate.ContextMenuStrip = this.favoritePostMenuStrip;
             this.m_FavoritePostTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_FavoritePostTemplate.Location = new System.Drawing.Point(0, 0);
             this.m_FavoritePostTemplate.Name = "m_FavoritePostTemplate";
@@ -221,6 +240,7 @@
             this.tabPage2.ResumeLayout(false);
             this.m_FavoritesRepeater.ItemTemplate.ResumeLayout(false);
             this.m_FavoritesRepeater.ResumeLayout(false);
+            this.favoritePostMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -243,5 +263,7 @@
         private Microsoft.VisualBasic.PowerPacks.DataRepeater m_FavoritesRepeater;
         private UserControls.PostItemControl m_FavoritePostTemplate;
         private System.Windows.Forms.ToolStripMenuItem reloadFavoritesToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip favoritePostMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem removeFromFavoritesToolStripMenuItem;
     }
 }
