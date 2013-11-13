@@ -32,10 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.m_NewsFeedRepeater = new Microsoft.VisualBasic.PowerPacks.DataRepeater();
             this.postMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.m_BookmarkItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.opeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_RefreshMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.signOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -43,10 +44,9 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.m_FavoritesRepeater = new Microsoft.VisualBasic.PowerPacks.DataRepeater();
             this.favoritePostMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.m_BookmarkItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_PostItemTemplate = new Ex2.FacebookApp.UserControls.PostItemControl();
-            this.m_FavoritePostTemplate = new Ex2.FacebookApp.UserControls.PostItemControl();
+            this.m_PostItemTemplate = new Ex2.FacebookApp.UserControls.m_PostItemControl();
+            this.m_FavoritePostTemplate = new Ex2.FacebookApp.UserControls.m_PostItemControl();
             this.m_NewsFeedRepeater.ItemTemplate.SuspendLayout();
             this.m_NewsFeedRepeater.SuspendLayout();
             this.postMenuStrip.SuspendLayout();
@@ -66,7 +66,7 @@
             // m_NewsFeedRepeater.ItemTemplate
             // 
             this.m_NewsFeedRepeater.ItemTemplate.Controls.Add(this.m_PostItemTemplate);
-            this.m_NewsFeedRepeater.ItemTemplate.Size = new System.Drawing.Size(816, 115);
+            this.m_NewsFeedRepeater.ItemTemplate.Size = new System.Drawing.Size(816, 142);
             this.m_NewsFeedRepeater.Location = new System.Drawing.Point(3, 3);
             this.m_NewsFeedRepeater.Name = "m_NewsFeedRepeater";
             this.m_NewsFeedRepeater.Size = new System.Drawing.Size(824, 356);
@@ -78,6 +78,14 @@
             this.m_BookmarkItToolStripMenuItem});
             this.postMenuStrip.Name = "contextMenuStrip1";
             this.postMenuStrip.Size = new System.Drawing.Size(142, 26);
+            // 
+            // m_BookmarkItToolStripMenuItem
+            // 
+            this.m_BookmarkItToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("m_BookmarkItToolStripMenuItem.Image")));
+            this.m_BookmarkItToolStripMenuItem.Name = "m_BookmarkItToolStripMenuItem";
+            this.m_BookmarkItToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.m_BookmarkItToolStripMenuItem.Text = "Bookmark it!";
+            this.m_BookmarkItToolStripMenuItem.Click += new System.EventHandler(this.m_BookmarkItToolStripMenuItem_Click);
             // 
             // mainMenu
             // 
@@ -94,7 +102,7 @@
             // 
             this.opeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.m_RefreshMenuItem,
-            this.signOutToolStripMenuItem});
+            this.m_ExitToolStripMenuItem});
             this.opeToolStripMenuItem.Name = "opeToolStripMenuItem";
             this.opeToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.opeToolStripMenuItem.Text = "Actions";
@@ -102,15 +110,16 @@
             // m_RefreshMenuItem
             // 
             this.m_RefreshMenuItem.Name = "m_RefreshMenuItem";
-            this.m_RefreshMenuItem.Size = new System.Drawing.Size(118, 22);
+            this.m_RefreshMenuItem.Size = new System.Drawing.Size(152, 22);
             this.m_RefreshMenuItem.Text = "Refresh";
             this.m_RefreshMenuItem.Click += new System.EventHandler(this.m_RefreshMenuItem_Click);
             // 
-            // signOutToolStripMenuItem
+            // m_ExitToolStripMenuItem
             // 
-            this.signOutToolStripMenuItem.Name = "signOutToolStripMenuItem";
-            this.signOutToolStripMenuItem.Size = new System.Drawing.Size(118, 22);
-            this.signOutToolStripMenuItem.Text = "Sign out";
+            this.m_ExitToolStripMenuItem.Name = "m_ExitToolStripMenuItem";
+            this.m_ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.m_ExitToolStripMenuItem.Text = "Exit";
+            this.m_ExitToolStripMenuItem.Click += new System.EventHandler(this.m_ExitToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -167,7 +176,7 @@
             // m_FavoritesRepeater.ItemTemplate
             // 
             this.m_FavoritesRepeater.ItemTemplate.Controls.Add(this.m_FavoritePostTemplate);
-            this.m_FavoritesRepeater.ItemTemplate.Size = new System.Drawing.Size(816, 124);
+            this.m_FavoritesRepeater.ItemTemplate.Size = new System.Drawing.Size(816, 144);
             this.m_FavoritesRepeater.Location = new System.Drawing.Point(3, 3);
             this.m_FavoritesRepeater.Name = "m_FavoritesRepeater";
             this.m_FavoritesRepeater.Size = new System.Drawing.Size(824, 356);
@@ -179,15 +188,7 @@
             this.favoritePostMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.removeFromFavoritesToolStripMenuItem});
             this.favoritePostMenuStrip.Name = "favoritePostMenuStrip";
-            this.favoritePostMenuStrip.Size = new System.Drawing.Size(195, 48);
-            // 
-            // m_BookmarkItToolStripMenuItem
-            // 
-            this.m_BookmarkItToolStripMenuItem.Image = ((System.Drawing.Image)(resources.GetObject("m_BookmarkItToolStripMenuItem.Image")));
-            this.m_BookmarkItToolStripMenuItem.Name = "m_BookmarkItToolStripMenuItem";
-            this.m_BookmarkItToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
-            this.m_BookmarkItToolStripMenuItem.Text = "Bookmark it!";
-            this.m_BookmarkItToolStripMenuItem.Click += new System.EventHandler(this.m_BookmarkItToolStripMenuItem_Click);
+            this.favoritePostMenuStrip.Size = new System.Drawing.Size(195, 26);
             // 
             // removeFromFavoritesToolStripMenuItem
             // 
@@ -205,18 +206,21 @@
             this.m_PostItemTemplate.Location = new System.Drawing.Point(0, 0);
             this.m_PostItemTemplate.Name = "m_PostItemTemplate";
             this.m_PostItemTemplate.Post = null;
-            this.m_PostItemTemplate.Size = new System.Drawing.Size(801, 114);
+            this.m_PostItemTemplate.Size = new System.Drawing.Size(801, 141);
             this.m_PostItemTemplate.TabIndex = 0;
+            this.m_PostItemTemplate.Translator = null;
             // 
             // m_FavoritePostTemplate
             // 
+            this.m_FavoritePostTemplate.BackColor = System.Drawing.Color.PaleTurquoise;
             this.m_FavoritePostTemplate.ContextMenuStrip = this.favoritePostMenuStrip;
             this.m_FavoritePostTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
             this.m_FavoritePostTemplate.Location = new System.Drawing.Point(0, 0);
             this.m_FavoritePostTemplate.Name = "m_FavoritePostTemplate";
             this.m_FavoritePostTemplate.Post = null;
-            this.m_FavoritePostTemplate.Size = new System.Drawing.Size(801, 123);
+            this.m_FavoritePostTemplate.Size = new System.Drawing.Size(801, 143);
             this.m_FavoritePostTemplate.TabIndex = 0;
+            this.m_FavoritePostTemplate.Translator = null;
             // 
             // MainForm
             // 
@@ -250,10 +254,10 @@
 
         private System.Windows.Forms.MenuStrip mainMenu;
         private System.Windows.Forms.ToolStripMenuItem opeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem signOutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem m_ExitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private Microsoft.VisualBasic.PowerPacks.DataRepeater m_NewsFeedRepeater;
-        private UserControls.PostItemControl m_PostItemTemplate;
+        private UserControls.m_PostItemControl m_PostItemTemplate;
         private System.Windows.Forms.ToolStripMenuItem m_RefreshMenuItem;
         private System.Windows.Forms.ContextMenuStrip postMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem m_BookmarkItToolStripMenuItem;
@@ -261,7 +265,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private Microsoft.VisualBasic.PowerPacks.DataRepeater m_FavoritesRepeater;
-        private UserControls.PostItemControl m_FavoritePostTemplate;
+        private UserControls.m_PostItemControl m_FavoritePostTemplate;
         private System.Windows.Forms.ToolStripMenuItem reloadFavoritesToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip favoritePostMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem removeFromFavoritesToolStripMenuItem;

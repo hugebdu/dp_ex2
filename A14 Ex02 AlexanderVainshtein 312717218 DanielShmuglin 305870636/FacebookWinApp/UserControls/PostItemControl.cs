@@ -11,13 +11,15 @@ using Ex2.FacebookApp.Translator;
 
 namespace Ex2.FacebookApp.UserControls
 {
-    public partial class PostItemControl : UserControl
+    public partial class m_PostItemControl : UserControl
     {
         private LinkViewForm m_LinkViewForm;
 
         public ITranslator Translator { get; set; }
 
-        public PostItemControl()
+        private bool m_PostIsTranslated;
+
+        public m_PostItemControl()
         {
             InitializeComponent();
         }
@@ -34,6 +36,7 @@ namespace Ex2.FacebookApp.UserControls
                 if (m_Post != value)
                 {
                     m_Post = value;
+                    m_PostIsTranslated = false;
                     updateView();
                 }
             }
@@ -55,11 +58,7 @@ namespace Ex2.FacebookApp.UserControls
                 }
             }
 
-
-
-            var originalText = m_Post == null ? string.Empty : m_Post.Message;
-            m_PostBody.Text = originalText;
-            Translator.AsyncTranslate(originalText, (result) => this.updateControlText(m_PostBody, result.TranslatedOrOriginText));
+            m_PostBody.Text = m_Post == null ? string.Empty : m_Post.Message;
             m_Name.Text = m_Post == null || m_Post.From == null ? string.Empty : m_Post.From.Name;
             m_LikesCountLink.Text = likesCount.ToString();
             m_UserPicture.Image = m_Post == null || m_Post.From == null ? null : m_Post.From.ImageNormal;
@@ -101,6 +100,19 @@ namespace Ex2.FacebookApp.UserControls
 
             m_LinkViewForm = new LinkViewForm();
             m_LinkViewForm.FormClosed += (sender, e) => m_LinkViewForm = null;
+        }
+
+        private void m_TabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (m_PostIsTranslated || Translator == null)
+            {
+                return;
+            }
+
+            if (m_TabControl.SelectedTab == m_TranslatedTab)
+            {
+                Translator.AsyncTranslate(m_PostBody.Text, (result) => this.updateControlText(m_TranslatedPostBody, result.TranslatedOrOriginText));
+            }
         }
     }
 }

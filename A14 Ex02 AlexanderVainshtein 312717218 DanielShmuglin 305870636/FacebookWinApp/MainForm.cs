@@ -20,6 +20,7 @@ namespace Ex2.FacebookApp
         private class PostWrapper
         {
             public Post Post { get; set; }
+            public ITranslator Translator { get; set; }
         }
 
         private User m_User;
@@ -28,14 +29,14 @@ namespace Ex2.FacebookApp
 
         private readonly Timer m_FeedRefreshTimer = new Timer();
 
-        public readonly ITranslator Translator;
+        private readonly ITranslator m_Translator;
 
         public MainForm(LoginResult i_LoginResult)
         {
             m_User = i_LoginResult.LoggedInUser;
             InitializeComponent();
             initializeTimer();
-            Translator = TranslatorFactory.Create("ru");
+            m_Translator = TranslatorFactory.Create("ru");
         }
 
         private void initializeTimer()
@@ -65,7 +66,8 @@ namespace Ex2.FacebookApp
         {
            var posts = m_User.NewsFeed.Take(10).Select(post => new PostWrapper()
             {
-                Post = post
+                Post = post,
+                Translator = m_Translator
             }).ToList();
 
             updatePostRepeater(m_NewsFeedRepeater, m_PostItemTemplate, posts);
@@ -78,14 +80,14 @@ namespace Ex2.FacebookApp
 
         private void loadFavorites()
         {
-            var posts = m_FavoritesManager.GetFavoritePosts().Select(post => new PostWrapper { Post = post }).ToList();
+            var posts = m_FavoritesManager.GetFavoritePosts().Select(post => new PostWrapper { Post = post, Translator = m_Translator }).ToList();
             updatePostRepeater(m_FavoritesRepeater, m_FavoritePostTemplate, posts);
         }
 
         private void updatePostRepeater(DataRepeater i_Repeater, Control template, List<PostWrapper> i_Posts)
         {
             template.DataBindings.Clear();
-            template.DataBindings.Add("Translator", this, "Translator");
+            template.DataBindings.Add("Translator", i_Posts, "Translator");
             template.DataBindings.Add("Post", i_Posts, "Post");
 
             if (i_Repeater.InvokeRequired)
@@ -105,7 +107,7 @@ namespace Ex2.FacebookApp
 
         private void m_BookmarkItToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var sourceControl = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as PostItemControl;
+            var sourceControl = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as m_PostItemControl;
             if (sourceControl != null && sourceControl.Post != null)
             {
                 m_FavoritesManager.MarkFavorite(sourceControl.Post);
@@ -115,7 +117,7 @@ namespace Ex2.FacebookApp
 
         private void removeFromFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var sourceControl = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as PostItemControl;
+            var sourceControl = ((sender as ToolStripMenuItem).Owner as ContextMenuStrip).SourceControl as m_PostItemControl;
             if (sourceControl != null && sourceControl.Post != null)
             {
                 m_FavoritesManager.UnmarkFavorite(sourceControl.Post);
@@ -128,5 +130,9 @@ namespace Ex2.FacebookApp
             loadFavoritesAsync();
         }
 
+        private void m_ExitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
