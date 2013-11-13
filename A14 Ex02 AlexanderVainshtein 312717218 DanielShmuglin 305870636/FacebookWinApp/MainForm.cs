@@ -11,6 +11,7 @@ using Microsoft.VisualBasic.PowerPacks;
 using FacebookWrapper;
 using FacebookWrapper.ObjectModel;
 using Ex2.FacebookApp.UserControls;
+using Ex2.FacebookApp.Translator;
 
 namespace Ex2.FacebookApp
 {
@@ -27,11 +28,14 @@ namespace Ex2.FacebookApp
 
         private readonly Timer m_FeedRefreshTimer = new Timer();
 
+        public readonly ITranslator Translator;
+
         public MainForm(LoginResult i_LoginResult)
         {
             m_User = i_LoginResult.LoggedInUser;
             InitializeComponent();
             initializeTimer();
+            Translator = TranslatorFactory.Create("ru");
         }
 
         private void initializeTimer()
@@ -59,7 +63,7 @@ namespace Ex2.FacebookApp
 
         private void loadNewsFeed()
         {
-           var posts = m_User.NewsFeed.Select(post => new PostWrapper()
+           var posts = m_User.NewsFeed.Take(10).Select(post => new PostWrapper()
             {
                 Post = post
             }).ToList();
@@ -81,6 +85,7 @@ namespace Ex2.FacebookApp
         private void updatePostRepeater(DataRepeater i_Repeater, Control template, List<PostWrapper> i_Posts)
         {
             template.DataBindings.Clear();
+            template.DataBindings.Add("Translator", this, "Translator");
             template.DataBindings.Add("Post", i_Posts, "Post");
 
             if (i_Repeater.InvokeRequired)

@@ -7,12 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
+using Ex2.FacebookApp.Translator;
 
 namespace Ex2.FacebookApp.UserControls
 {
     public partial class PostItemControl : UserControl
     {
         private LinkViewForm m_LinkViewForm;
+
+        public ITranslator Translator { get; set; }
 
         public PostItemControl()
         {
@@ -52,10 +55,26 @@ namespace Ex2.FacebookApp.UserControls
                 }
             }
 
-            m_PostBody.Text = m_Post == null ? string.Empty : m_Post.Message;
+
+
+            var originalText = m_Post == null ? string.Empty : m_Post.Message;
+            m_PostBody.Text = originalText;
+            Translator.AsyncTranslate(originalText, (result) => this.updateControlText(m_PostBody, result.TranslatedOrOriginText));
             m_Name.Text = m_Post == null || m_Post.From == null ? string.Empty : m_Post.From.Name;
             m_LikesCountLink.Text = likesCount.ToString();
             m_UserPicture.Image = m_Post == null || m_Post.From == null ? null : m_Post.From.ImageNormal;
+        }
+
+        private void updateControlText(Control i_Control, string i_Text)
+        {
+            if (i_Control.InvokeRequired)
+            {
+                i_Control.Invoke(new Action<Control, string>(this.updateControlText), i_Control, i_Text);
+            }
+            else
+            {
+                i_Control.Text = i_Text;
+            }
         }
 
         private void m_LikesCountLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

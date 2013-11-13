@@ -22,5 +22,23 @@ namespace Ex2.FacebookApp.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dp_ex2")]
+        public string BingTranslateClientID {
+            get {
+                return ((string)(this["BingTranslateClientID"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ubJB8b5HFVOgV8Z1i1xY4vKI7hd613JzBRWt9Ip0CNM=")]
+        public string BingTranslateSecretKey {
+            get {
+                return ((string)(this["BingTranslateSecretKey"]));
+            }
+        }
     }
 }
