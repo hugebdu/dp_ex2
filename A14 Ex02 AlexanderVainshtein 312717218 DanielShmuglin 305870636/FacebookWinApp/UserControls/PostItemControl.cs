@@ -15,7 +15,7 @@ namespace Ex2.FacebookApp.UserControls
     {
         private LinkViewForm m_LinkViewForm;
 
-        public ITranslator Translator { get; set; }
+        public ITranslatorHost TranslatorHost { get; set; }
 
         private bool m_PostIsTranslated;
 
@@ -104,14 +104,15 @@ namespace Ex2.FacebookApp.UserControls
 
         private void m_TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (m_PostIsTranslated || Translator == null)
+            if (m_PostIsTranslated || TranslatorHost == null || TranslatorHost.ActiveTranslator == null)
             {
                 return;
             }
 
             if (m_TabControl.SelectedTab == m_TranslatedTab)
             {
-                Translator.AsyncTranslate(m_PostBody.Text, (result) => this.updateControlText(m_TranslatedPostBody, result.TranslatedOrOriginText));
+                TranslatorHost.ActiveTranslator.AsyncTranslate(m_PostBody.Text, (result) => this.updateControlText(m_TranslatedPostBody, result.TranslatedOrOriginText));
+                m_PostIsTranslated = true;
             }
         }
     }

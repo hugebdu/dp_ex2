@@ -7,10 +7,23 @@ namespace Ex2.FacebookApp.Translator
 
     public static class TranslatorFactory
     {
-        public static ITranslator Create(string i_TargetLanguageCode, IEnumerable<string> i_SkippedLanguageCodes = null)
+        public static ITranslator Create(eTranslatorType i_Type, string i_TargetLanguageCode, IEnumerable<string> i_SkippedLanguageCodes = null)
         {
-            //return new Bing.BingTranslator(i_TargetLanguageCode, i_SkippedLanguageCodes);
-            return new Dummy.DummyTranslator();
+            switch (i_Type)
+            {
+                case eTranslatorType.Dummy:
+                    return new Dummy.DummyTranslator();
+                case eTranslatorType.Bing:
+                    return new Bing.BingTranslator(i_TargetLanguageCode, i_SkippedLanguageCodes);
+                default:
+                    throw new ArgumentException("Unsupported translator type");
+            }
         }
+    }
+
+    public enum eTranslatorType
+    { 
+        Dummy,
+        Bing
     }
 }

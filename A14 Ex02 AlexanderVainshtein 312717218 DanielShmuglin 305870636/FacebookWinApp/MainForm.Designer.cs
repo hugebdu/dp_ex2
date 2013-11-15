@@ -31,22 +31,25 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.m_NewsFeedRepeater = new Microsoft.VisualBasic.PowerPacks.DataRepeater();
+            this.m_PostItemTemplate = new Ex2.FacebookApp.UserControls.m_PostItemControl();
             this.postMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.m_BookmarkItToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.opeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_RefreshMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_RefreshNewsFeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_TranslatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_DummyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_BingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.m_FavoritesRepeater = new Microsoft.VisualBasic.PowerPacks.DataRepeater();
+            this.m_FavoritePostTemplate = new Ex2.FacebookApp.UserControls.m_PostItemControl();
             this.favoritePostMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_PostItemTemplate = new Ex2.FacebookApp.UserControls.m_PostItemControl();
-            this.m_FavoritePostTemplate = new Ex2.FacebookApp.UserControls.m_PostItemControl();
             this.m_NewsFeedRepeater.ItemTemplate.SuspendLayout();
             this.m_NewsFeedRepeater.SuspendLayout();
             this.postMenuStrip.SuspendLayout();
@@ -71,6 +74,18 @@
             this.m_NewsFeedRepeater.Name = "m_NewsFeedRepeater";
             this.m_NewsFeedRepeater.Size = new System.Drawing.Size(824, 356);
             this.m_NewsFeedRepeater.TabIndex = 3;
+            // 
+            // m_PostItemTemplate
+            // 
+            this.m_PostItemTemplate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.m_PostItemTemplate.ContextMenuStrip = this.postMenuStrip;
+            this.m_PostItemTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_PostItemTemplate.Location = new System.Drawing.Point(0, 0);
+            this.m_PostItemTemplate.Name = "m_PostItemTemplate";
+            this.m_PostItemTemplate.Post = null;
+            this.m_PostItemTemplate.Size = new System.Drawing.Size(801, 141);
+            this.m_PostItemTemplate.TabIndex = 0;
+            this.m_PostItemTemplate.TranslatorHost = null;
             // 
             // postMenuStrip
             // 
@@ -101,40 +116,66 @@
             // opeToolStripMenuItem
             // 
             this.opeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.m_RefreshMenuItem,
             this.m_ExitToolStripMenuItem});
             this.opeToolStripMenuItem.Name = "opeToolStripMenuItem";
             this.opeToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.opeToolStripMenuItem.Text = "Actions";
             // 
-            // m_RefreshMenuItem
-            // 
-            this.m_RefreshMenuItem.Name = "m_RefreshMenuItem";
-            this.m_RefreshMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.m_RefreshMenuItem.Text = "Refresh";
-            this.m_RefreshMenuItem.Click += new System.EventHandler(this.m_RefreshMenuItem_Click);
-            // 
             // m_ExitToolStripMenuItem
             // 
             this.m_ExitToolStripMenuItem.Name = "m_ExitToolStripMenuItem";
-            this.m_ExitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.m_ExitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.m_ExitToolStripMenuItem.Text = "Exit";
             this.m_ExitToolStripMenuItem.Click += new System.EventHandler(this.m_ExitToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.reloadFavoritesToolStripMenuItem});
+            this.m_RefreshNewsFeedToolStripMenuItem,
+            this.reloadFavoritesToolStripMenuItem,
+            this.m_TranslatorToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
+            // m_RefreshNewsFeedToolStripMenuItem
+            // 
+            this.m_RefreshNewsFeedToolStripMenuItem.Name = "m_RefreshNewsFeedToolStripMenuItem";
+            this.m_RefreshNewsFeedToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.m_RefreshNewsFeedToolStripMenuItem.Text = "Refresh News Feed";
+            this.m_RefreshNewsFeedToolStripMenuItem.Click += new System.EventHandler(this.m_RefreshNewsFeedToolStripMenuItem_Click);
+            // 
             // reloadFavoritesToolStripMenuItem
             // 
             this.reloadFavoritesToolStripMenuItem.Name = "reloadFavoritesToolStripMenuItem";
-            this.reloadFavoritesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.reloadFavoritesToolStripMenuItem.Text = "Reload favorites";
+            this.reloadFavoritesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.reloadFavoritesToolStripMenuItem.Text = "Refresh Favorites";
             this.reloadFavoritesToolStripMenuItem.Click += new System.EventHandler(this.reloadFavoritesToolStripMenuItem_Click);
+            // 
+            // m_TranslatorToolStripMenuItem
+            // 
+            this.m_TranslatorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.m_DummyToolStripMenuItem,
+            this.m_BingToolStripMenuItem});
+            this.m_TranslatorToolStripMenuItem.Name = "m_TranslatorToolStripMenuItem";
+            this.m_TranslatorToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.m_TranslatorToolStripMenuItem.Text = "Translator";
+            // 
+            // m_DummyToolStripMenuItem
+            // 
+            this.m_DummyToolStripMenuItem.Checked = true;
+            this.m_DummyToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.m_DummyToolStripMenuItem.Name = "m_DummyToolStripMenuItem";
+            this.m_DummyToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.m_DummyToolStripMenuItem.Text = "Dummy";
+            this.m_DummyToolStripMenuItem.Click += new System.EventHandler(this.m_DummyToolStripMenuItem_Click);
+            // 
+            // m_BingToolStripMenuItem
+            // 
+            this.m_BingToolStripMenuItem.Name = "m_BingToolStripMenuItem";
+            this.m_BingToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.m_BingToolStripMenuItem.Text = "Bing";
+            this.m_BingToolStripMenuItem.Click += new System.EventHandler(this.m_BingToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
@@ -183,6 +224,18 @@
             this.m_FavoritesRepeater.TabIndex = 0;
             this.m_FavoritesRepeater.Text = "dataRepeater1";
             // 
+            // m_FavoritePostTemplate
+            // 
+            this.m_FavoritePostTemplate.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.m_FavoritePostTemplate.ContextMenuStrip = this.favoritePostMenuStrip;
+            this.m_FavoritePostTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.m_FavoritePostTemplate.Location = new System.Drawing.Point(0, 0);
+            this.m_FavoritePostTemplate.Name = "m_FavoritePostTemplate";
+            this.m_FavoritePostTemplate.Post = null;
+            this.m_FavoritePostTemplate.Size = new System.Drawing.Size(801, 143);
+            this.m_FavoritePostTemplate.TabIndex = 0;
+            this.m_FavoritePostTemplate.TranslatorHost = null;
+            // 
             // favoritePostMenuStrip
             // 
             this.favoritePostMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -197,30 +250,6 @@
             this.removeFromFavoritesToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.removeFromFavoritesToolStripMenuItem.Text = "Remove from favorites";
             this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
-            // 
-            // m_PostItemTemplate
-            // 
-            this.m_PostItemTemplate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.m_PostItemTemplate.ContextMenuStrip = this.postMenuStrip;
-            this.m_PostItemTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_PostItemTemplate.Location = new System.Drawing.Point(0, 0);
-            this.m_PostItemTemplate.Name = "m_PostItemTemplate";
-            this.m_PostItemTemplate.Post = null;
-            this.m_PostItemTemplate.Size = new System.Drawing.Size(801, 141);
-            this.m_PostItemTemplate.TabIndex = 0;
-            this.m_PostItemTemplate.Translator = null;
-            // 
-            // m_FavoritePostTemplate
-            // 
-            this.m_FavoritePostTemplate.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.m_FavoritePostTemplate.ContextMenuStrip = this.favoritePostMenuStrip;
-            this.m_FavoritePostTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.m_FavoritePostTemplate.Location = new System.Drawing.Point(0, 0);
-            this.m_FavoritePostTemplate.Name = "m_FavoritePostTemplate";
-            this.m_FavoritePostTemplate.Post = null;
-            this.m_FavoritePostTemplate.Size = new System.Drawing.Size(801, 143);
-            this.m_FavoritePostTemplate.TabIndex = 0;
-            this.m_FavoritePostTemplate.Translator = null;
             // 
             // MainForm
             // 
@@ -258,7 +287,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private Microsoft.VisualBasic.PowerPacks.DataRepeater m_NewsFeedRepeater;
         private UserControls.m_PostItemControl m_PostItemTemplate;
-        private System.Windows.Forms.ToolStripMenuItem m_RefreshMenuItem;
         private System.Windows.Forms.ContextMenuStrip postMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem m_BookmarkItToolStripMenuItem;
         private System.Windows.Forms.TabControl tabControl1;
@@ -269,5 +297,9 @@
         private System.Windows.Forms.ToolStripMenuItem reloadFavoritesToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip favoritePostMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem removeFromFavoritesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem m_TranslatorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem m_DummyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem m_BingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem m_RefreshNewsFeedToolStripMenuItem;
     }
 }

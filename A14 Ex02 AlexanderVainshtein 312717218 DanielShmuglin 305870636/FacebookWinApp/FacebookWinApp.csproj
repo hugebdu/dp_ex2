@@ -95,6 +95,7 @@
     <Compile Include="Translator\Dummy\DummyTranslator.cs" />
     <Compile Include="Translator\ITranslationResult.cs" />
     <Compile Include="Translator\ITranslator.cs" />
+    <Compile Include="Translator\ITranslatorHost.cs" />
     <Compile Include="Translator\TranslatorFactory.cs" />
     <Compile Include="UserControls\LinkViewer.cs">
       <SubType>UserControl</SubType>
