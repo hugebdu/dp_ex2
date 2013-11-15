@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
 using Ex2.FacebookApp.Translator;
@@ -14,6 +14,8 @@ namespace Ex2.FacebookApp.UserControls
     public partial class m_PostItemControl : UserControl
     {
         private LinkViewForm m_LinkViewForm;
+        
+        private UserForm m_UserForm;
 
         public ITranslatorHost TranslatorHost { get; set; }
 
@@ -60,27 +62,21 @@ namespace Ex2.FacebookApp.UserControls
 
             m_PostBody.Text = m_Post == null ? string.Empty : m_Post.Message;
             m_Name.Text = m_Post == null || m_Post.From == null ? string.Empty : m_Post.From.Name;
-            m_LikesCountLink.Text = likesCount.ToString();
+            m_LikesCountLabel.Text = likesCount.ToString();
             m_UserPicture.Image = m_Post == null || m_Post.From == null ? null : m_Post.From.ImageNormal;
         }
-
-        private void updateControlText(Control i_Control, string i_Text)
+        
+        private void m_TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (i_Control.InvokeRequired)
+            if (m_PostIsTranslated || TranslatorHost == null || TranslatorHost.ActiveTranslator == null)
             {
-                i_Control.Invoke(new Action<Control, string>(this.updateControlText), i_Control, i_Text);
+                return;
             }
-            else
-            {
-                i_Control.Text = i_Text;
-            }
-        }
 
-        private void m_LikesCountLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            if (m_Post != null)
+            if (m_TabControl.SelectedTab == m_TranslatedTab)
             {
-
+                TranslatorHost.ActiveTranslator.AsyncTranslate(m_PostBody.Text, (result) => Utils.UpdateControlText(m_TranslatedPostBody, result.TranslatedOrOriginText));
+                m_PostIsTranslated = true;
             }
         }
 
@@ -89,6 +85,16 @@ namespace Ex2.FacebookApp.UserControls
             ensureBrowserExists();
             m_LinkViewForm.Url = e.LinkText;
             m_LinkViewForm.Show();
+        }
+
+        private void m_Name_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (m_Post != null)
+            {
+                ensureUserFromExists();
+                m_UserForm.User = m_Post.From;
+                m_UserForm.Show(this);
+            }
         }
 
         private void ensureBrowserExists()
@@ -102,17 +108,23 @@ namespace Ex2.FacebookApp.UserControls
             m_LinkViewForm.FormClosed += (sender, e) => m_LinkViewForm = null;
         }
 
-        private void m_TabControl_SelectedIndexChanged(object sender, EventArgs e)
+        private void ensureUserFromExists()
         {
-            if (m_PostIsTranslated || TranslatorHost == null || TranslatorHost.ActiveTranslator == null)
+            if (m_UserForm != null)
             {
                 return;
             }
 
-            if (m_TabControl.SelectedTab == m_TranslatedTab)
+            m_UserForm = new UserForm();
+            m_UserForm.FormClosed += (sender, e) => m_UserForm = null;
+        }
+
+        private void m_ViewPostLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (m_Post != null)
             {
-                TranslatorHost.ActiveTranslator.AsyncTranslate(m_PostBody.Text, (result) => this.updateControlText(m_TranslatedPostBody, result.TranslatedOrOriginText));
-                m_PostIsTranslated = true;
+                var postUrl = string.Format("http://www.facebook.com/{0}", m_Post.Id);
+                Process.Start(postUrl);
             }
         }
     }
