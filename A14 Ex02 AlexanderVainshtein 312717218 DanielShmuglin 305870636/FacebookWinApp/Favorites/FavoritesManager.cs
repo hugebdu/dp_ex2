@@ -2,12 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using FacebookWrapper.ObjectModel;
 
     public class FavoritesManager
     {
+        private const string k_AppFolderName = "CoolFbApp_" + AppInfo.AppID;
+
         public delegate void FavoriteChangeEventHandler(object i_Sender, Post i_Post);
 
         public event FavoriteChangeEventHandler FavoriteAdded;
@@ -29,8 +32,9 @@
 
         private void initializeStorage(string i_UserId)
         {
-            string v_StorageFilename = string.Format("favorites_{0}.xml", i_UserId);
-            m_Storage = new XmlFileStorage(v_StorageFilename);
+            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), k_AppFolderName);
+            string storageFilename = string.Format("favorites_{0}.xml", i_UserId);
+            m_Storage = new XmlFileStorage(Path.Combine(folder, storageFilename));
         }
 
         public void MarkFavorite(Post i_Post)

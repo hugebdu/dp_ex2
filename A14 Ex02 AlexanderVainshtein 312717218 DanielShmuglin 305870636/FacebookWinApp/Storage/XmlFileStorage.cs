@@ -108,6 +108,15 @@
 
         private void save()
         {
+            if (!File.Exists(FileName))
+            {
+                var folder = Path.GetDirectoryName(FileName);
+                if (!Directory.Exists(folder))
+                {
+                    Directory.CreateDirectory(folder);
+                }
+            }
+
             using (var writer = new StreamWriter(FileName))
             {
                 var serializer = new XmlSerializer(typeof(List<SimpleStorableItem>));
