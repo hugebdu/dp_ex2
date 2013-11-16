@@ -26,6 +26,18 @@ namespace Ex2.FacebookApp
             }
         }
 
+        public static void UpdateRtfText(RichTextBox i_RichTextBox, string i_Text)
+        {
+            if (i_RichTextBox.InvokeRequired)
+            {
+                i_RichTextBox.Invoke(new Action<RichTextBox, string>(UpdateRtfText), i_RichTextBox, i_Text);
+            }
+            else
+            {
+                i_RichTextBox.Rtf = i_Text;
+            }
+        }
+
         public static void UpdateImage(PictureBox i_PictoreBox, Image i_Image)
         {
             if (i_PictoreBox.InvokeRequired)

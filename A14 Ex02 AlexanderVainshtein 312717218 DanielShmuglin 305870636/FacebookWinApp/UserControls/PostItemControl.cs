@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
+using System.Text;
 using System.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -109,12 +109,76 @@ namespace Ex2.FacebookApp.UserControls
                 }
             }
 
-            Utils.UpdateControlText(m_PostBody, m_Post == null ? string.Empty : m_Post.Message);
             Utils.UpdateControlText(m_Name, m_Post == null || m_Post.From == null ? string.Empty : m_Post.From.Name);
             Utils.UpdateControlText(m_LikesCountLabel, likesCount.ToString());
             Utils.UpdateImage(m_UserPicture, m_Post == null || m_Post.From == null ? null : m_Post.From.ImageNormal);
             Utils.UpdateControlText(m_CreationDateLabel, m_Post == null || !m_Post.CreatedTime.HasValue ? null : m_Post.CreatedTime.Value.ToString());
+            updatePostBody();
             updateIsFavoriteView();
+        }
+
+        private void updatePostBody()
+        {
+            var rftBodyHelper = new RtfHelper();
+            string header = null;
+
+            if (m_Post != null)
+            {
+                var postType = m_Post.Type.HasValue ? m_Post.Type.Value : FacebookWrapper.ObjectModel.Post.eType.status;
+                switch (postType)
+                {
+                    case Post.eType.checkin:
+                        header = "has checked in:";
+                        break;
+                    case Post.eType.link:
+                        header = "has posted a link:";
+                        break;
+                    case Post.eType.photo:
+                        header = "has posted a photo:";
+                        break;
+                    case Post.eType.status:
+                        break;
+                    case Post.eType.swf:
+                        header = "has posted a clip:";
+                        break;
+                    case Post.eType.video:
+                        header = "has posted a video:";
+                        break;
+                    default:
+                        break;
+                }
+
+                rftBodyHelper.AppendLine(header);
+                rftBodyHelper.AppendLine(m_Post.Message);
+                rftBodyHelper.AppendBoldText(m_Post.Name);
+                rftBodyHelper.AppendNewLine();
+                rftBodyHelper.AppendLine(m_Post.Link);
+            }
+
+            Utils.UpdateRtfText(m_PostBody, rftBodyHelper.RtfText);
+        }
+
+        private string getString(string text)
+        {
+            return @"{\rtf{\fonttbl {\f0 Times New Roman;}}\f0\fs25 \b " + getRtfUnicodeEscapedString(text) + @" \b0 abc }";
+        }
+
+        private string getRtfUnicodeEscapedString(string i_String)
+        {
+            var sb = new StringBuilder();
+            foreach (var oneChar in i_String)
+            {
+                if (oneChar <= 0x7f)
+                {
+                    sb.Append(oneChar);
+                }
+                else
+                {
+                    sb.Append("\\u" + Convert.ToUInt32(oneChar) + "?");
+                }
+            }
+
+            return sb.ToString();
         }
 
         private void m_TabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -174,7 +238,13 @@ namespace Ex2.FacebookApp.UserControls
         {
             if (m_Post != null)
             {
-                var postUrl = string.Format("http://www.facebook.com/{0}", m_Post.Id);
+                string postUrl = null;
+                if (m_Post.Type.HasValue && m_Post.Type.Value == FacebookWrapper.ObjectModel.Post.eType.photo)
+                {
+                    postUrl = m_Post.Link;
+                }
+
+                postUrl = postUrl ?? string.Format("http://www.facebook.com/{0}", m_Post.Id);
                 Process.Start(postUrl);
             }
         }
