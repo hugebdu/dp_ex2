@@ -56,7 +56,6 @@
 
             m_Storage.DeleteItem(i_Post.Id);
             OnFavoriteRemoved(i_Post);
-
         }
 
         public IEnumerable<Post> GetFavoritePosts()

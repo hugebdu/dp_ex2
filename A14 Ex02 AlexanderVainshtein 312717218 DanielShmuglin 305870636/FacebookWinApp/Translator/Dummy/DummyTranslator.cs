@@ -13,7 +13,7 @@
             ThreadPool.QueueUserWorkItem(doTranslate, new Tuple<string, OnCompleted>(i_Text, i_Callback));
         }
 
-        private void doTranslate(Object i_State)
+        private void doTranslate(object i_State)
         {
             string text = (i_State as Tuple<string, OnCompleted>).Item1;
             OnCompleted callback = (i_State as Tuple<string, OnCompleted>).Item2;

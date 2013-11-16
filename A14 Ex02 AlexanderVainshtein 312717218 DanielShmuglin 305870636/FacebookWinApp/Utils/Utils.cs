@@ -37,7 +37,5 @@ namespace Ex2.FacebookApp
                 i_PictoreBox.Image = i_Image;
             }
         }
-
-
     }
 }

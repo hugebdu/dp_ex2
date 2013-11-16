@@ -16,7 +16,9 @@ namespace Ex2.FacebookApp.Translator.Bing
 	/// </summary>
 	public class AdmAuthentication
 	{
-		public static readonly string DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+        private const int k_RefreshTokenDuration = 9;
+        
+        public static readonly string DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
 
 		private string m_ClientId;
 		private string m_ClientSecret;
@@ -24,20 +26,20 @@ namespace Ex2.FacebookApp.Translator.Bing
 		private AdmAccessToken m_Token;
 		private Timer m_AccessTokenRenewer;
 
-		//Access token expires every 10 minutes. Renew it every 9 minutes only.
-		private const int RefreshTokenDuration = 9;
-
 		public AdmAuthentication(string i_ClientId, string i_ClientSecret)
 		{
 			this.m_ClientId = i_ClientId;
 			this.m_ClientSecret = i_ClientSecret;
-			//If clientid or client secret has special characters, encode before sending request
+
+			// If clientid or client secret has special characters, encode before sending request
 			this.m_Request = string.Format(
 				"grant_type=client_credentials&client_id={0}&client_secret={1}&scope=http://api.microsofttranslator.com", 
-				HttpUtility.UrlEncode(i_ClientId), HttpUtility.UrlEncode(i_ClientSecret));
+				HttpUtility.UrlEncode(i_ClientId), 
+                HttpUtility.UrlEncode(i_ClientSecret));
 			this.m_Token = httpPost(DatamarketAccessUri, this.m_Request);
-			//renew the token every specfied minutes
-			m_AccessTokenRenewer = new Timer(OnTokenExpiredCallback, this, TimeSpan.FromMinutes(RefreshTokenDuration), TimeSpan.FromMilliseconds(-1));
+
+			// renew the token every specfied minutes
+			m_AccessTokenRenewer = new Timer(OnTokenExpiredCallback, this, TimeSpan.FromMinutes(k_RefreshTokenDuration), TimeSpan.FromMilliseconds(-1));
 		}
 
 		public AdmAccessToken GetAccessToken()
@@ -47,9 +49,9 @@ namespace Ex2.FacebookApp.Translator.Bing
 
 		private void RenewAccessToken()
 		{
-			//swap the new token with old one
-			//Note: the swap is thread unsafe
-			this.m_Token = httpPost(DatamarketAccessUri, this.m_Request); ;
+			// swap the new token with old one
+			// Note: the swap is thread unsafe
+			this.m_Token = httpPost(DatamarketAccessUri, this.m_Request); 
 			Trace.WriteLine(string.Format("Renewed token for user: {0} is: {1}", this.m_ClientId, this.m_Token.access_token));
 		}
 
@@ -67,7 +69,7 @@ namespace Ex2.FacebookApp.Translator.Bing
 			{
 				try
 				{
-					m_AccessTokenRenewer.Change(TimeSpan.FromMinutes(RefreshTokenDuration), TimeSpan.FromMilliseconds(-1));
+					m_AccessTokenRenewer.Change(TimeSpan.FromMinutes(k_RefreshTokenDuration), TimeSpan.FromMilliseconds(-1));
 				}
 				catch (Exception ex)
 				{
@@ -78,7 +80,7 @@ namespace Ex2.FacebookApp.Translator.Bing
 
 		private AdmAccessToken httpPost(string i_DatamarketAccessUri, string i_RequestDetails)
 		{
-			//Prepare OAuth request 
+			// Prepare OAuth request 
 			var webRequest = WebRequest.Create(i_DatamarketAccessUri);
 			webRequest.ContentType = "application/x-www-form-urlencoded";
 			webRequest.Method = "POST";
@@ -89,10 +91,12 @@ namespace Ex2.FacebookApp.Translator.Bing
 			{
 				outputStream.Write(bytes, 0, bytes.Length);
 			}
+
 			using (var webResponse = webRequest.GetResponse())
 			{
 				var serializer = new DataContractJsonSerializer(typeof(AdmAccessToken));
-				//Get deserialized object from JSON stream
+
+                // Get deserialized object from JSON stream
 				return (AdmAccessToken)serializer.ReadObject(webResponse.GetResponseStream());
 			}
 		}

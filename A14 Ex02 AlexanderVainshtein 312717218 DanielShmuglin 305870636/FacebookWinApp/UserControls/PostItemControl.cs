@@ -29,6 +29,7 @@ namespace Ex2.FacebookApp.UserControls
             {
                 return m_Post;
             }
+
             set
             {
                 if (m_Post != value)
@@ -48,6 +49,7 @@ namespace Ex2.FacebookApp.UserControls
             {
                 return m_FavoritesManager;
             }
+
             set
             {
                 if (value != m_FavoritesManager)
@@ -66,6 +68,7 @@ namespace Ex2.FacebookApp.UserControls
             {
                 return FavoritesManager != null ? FavoritesManager.GetFavoritePosts().Any(post => post.Id == m_Post.Id) : false;
             }
+
             set
             {
                 if (FavoritesManager == null)

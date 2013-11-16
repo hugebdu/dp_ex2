@@ -22,15 +22,9 @@ namespace Ex2.FacebookApp.UserControls
             {
                 return m_WebBrowser.Url != null ? m_WebBrowser.Url.ToString() : null;
             }
+
             set
             {
-                //Uri uri;
-                //if (Uri.TryCreate(value, UriKind.Absolute, out uri))
-                //{
-                //    m_WebBrowser.Url = uri;
-                    
-                //}
-
                 m_WebBrowser.Navigate(value);
             }
         }

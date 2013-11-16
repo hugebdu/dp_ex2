@@ -22,10 +22,10 @@ namespace Ex2.FacebookApp
             {
                 return m_LinkViewer.Url;
             }
+
             set
             {
                 m_LinkViewer.Url = value;
-
             }
         }
     }

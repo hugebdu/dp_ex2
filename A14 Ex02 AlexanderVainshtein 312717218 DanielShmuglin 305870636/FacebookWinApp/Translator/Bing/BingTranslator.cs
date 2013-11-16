@@ -5,23 +5,24 @@ namespace Ex2.FacebookApp.Translator.Bing
     using System.Linq;
     using System.Text;
     using System.Threading;
-    using Ex2.FacebookApp.MicrosoftTranslator;
-    using Ex2.FacebookApp.Properties;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
+    using Ex2.FacebookApp.MicrosoftTranslator;
+    using Ex2.FacebookApp.Properties;
 
     public class BingTranslator : ITranslator, IDisposable
     {
+        private readonly AdmAuthentication r_Authentication;
         private HashSet<string> m_SkippedLanguageCodes;
         private string m_TargetLanguageCode;
-        private readonly AdmAuthentication m_Authentication;
+
         public LanguageServiceClient LanguageService { get; private set; }
 
         public BingTranslator(string i_TargetLanguageCode, IEnumerable<string> i_SkippedLanguageCodes)
         {
             m_SkippedLanguageCodes = new HashSet<string>(i_SkippedLanguageCodes ?? Enumerable.Empty<string>());
             m_TargetLanguageCode = i_TargetLanguageCode;
-            m_Authentication = new AdmAuthentication(Settings.Default.BingTranslateClientID, Settings.Default.BingTranslateSecretKey);
+            r_Authentication = new AdmAuthentication(Settings.Default.BingTranslateClientID, Settings.Default.BingTranslateSecretKey);
             LanguageService = new LanguageServiceClient();
         }
 
@@ -30,7 +31,7 @@ namespace Ex2.FacebookApp.Translator.Bing
             ThreadPool.QueueUserWorkItem(doTranslate, new Tuple<string, OnCompleted>(i_Text, i_Callback));
         }
 
-        private void doTranslate(Object i_State)
+        private void doTranslate(object i_State)
         {
             string text = (i_State as Tuple<string, OnCompleted>).Item1;
             OnCompleted callback = (i_State as Tuple<string, OnCompleted>).Item2;
@@ -117,7 +118,7 @@ namespace Ex2.FacebookApp.Translator.Bing
             {
                 var property = new HttpRequestMessageProperty();
                 property.Method = "POST";
-                property.Headers.Add("Authorization", "Bearer " + m_Authentication.GetAccessToken().access_token);
+                property.Headers.Add("Authorization", "Bearer " + r_Authentication.GetAccessToken().access_token);
                 OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] = property;
                 return i_Action();
             }

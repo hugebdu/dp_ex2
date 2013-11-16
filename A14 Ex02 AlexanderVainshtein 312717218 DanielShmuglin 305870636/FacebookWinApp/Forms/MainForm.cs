@@ -17,6 +17,12 @@ namespace Ex2.FacebookApp
 {
     public partial class MainForm : Form, ITranslatorHost
     {
+        private readonly FavoritesManager m_FavoritesManager;
+
+        private readonly Timer m_FeedRefreshTimer = new Timer();
+
+        private readonly Dictionary<eTranslatorType, ITranslator> m_Translators = new Dictionary<eTranslatorType, ITranslator>();
+
         private class PostWrapper
         {
             public Post Post { get; set; }
@@ -27,12 +33,6 @@ namespace Ex2.FacebookApp
         }
 
         private User m_User;
-
-        private readonly FavoritesManager m_FavoritesManager;
-
-        private readonly Timer m_FeedRefreshTimer = new Timer();
-
-        private readonly Dictionary<eTranslatorType, ITranslator> m_Translators = new Dictionary<eTranslatorType, ITranslator>();
 
         private eTranslatorType m_TranslatorType = eTranslatorType.Dummy;
 
@@ -154,7 +154,6 @@ namespace Ex2.FacebookApp
                 i_Repeater.DataSource = i_Posts;
             }
         }
-
 
         private void m_BookmarkItToolStripMenuItem_Click(object sender, EventArgs e)
         {
