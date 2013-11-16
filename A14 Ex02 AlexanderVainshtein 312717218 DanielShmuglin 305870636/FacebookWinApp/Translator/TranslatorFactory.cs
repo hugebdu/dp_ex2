@@ -12,9 +12,11 @@ namespace Ex2.FacebookApp.Translator
             switch (i_Type)
             {
                 case eTranslatorType.Dummy:
-                    return new Dummy.DummyTranslator();
+                    return new DummyTranslator();
                 case eTranslatorType.Bing:
-                    return new Bing.BingTranslator(i_TargetLanguageCode, i_SkippedLanguageCodes);
+                    return new BingTranslator(i_TargetLanguageCode, i_SkippedLanguageCodes);
+                case eTranslatorType.Base64:
+                    return new Base64Translator();
                 default:
                     throw new ArgumentException("Unsupported translator type");
             }
@@ -24,6 +26,7 @@ namespace Ex2.FacebookApp.Translator
     public enum eTranslatorType
     { 
         Dummy,
-        Bing
+        Bing,
+        Base64
     }
 }

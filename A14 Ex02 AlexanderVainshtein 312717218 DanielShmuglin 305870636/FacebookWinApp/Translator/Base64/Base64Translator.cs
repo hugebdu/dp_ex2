@@ -3,10 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading;
     using System.Text;
+    using System.Threading;
 
-    public class DummyTranslator : ITranslator
+    public class Base64Translator : ITranslator
     {
         public void AsyncTranslate(string i_Text, OnCompleted i_Callback)
         {
@@ -17,11 +17,10 @@
         {
             string text = (i_State as Tuple<string, OnCompleted>).Item1;
             OnCompleted callback = (i_State as Tuple<string, OnCompleted>).Item2;
-            Thread.Sleep(100);
             callback(new DummyTranslationResult(text));
         }
 
-        class DummyTranslationResult : ITranslationResult
+        private class DummyTranslationResult : ITranslationResult
         {
             private string m_Text;
 
@@ -50,7 +49,7 @@
             {
                 get 
                 {
-                    return "(translated) " + m_Text;
+                    return toBase64String(m_Text);
                 }
             }
 
@@ -68,6 +67,11 @@
                 {
                     return "he";
                 }
+            }
+
+            private String toBase64String(string i_Text)
+            {
+                return Convert.ToBase64String(Encoding.Unicode.GetBytes(i_Text));
             }
         }
     }

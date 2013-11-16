@@ -89,6 +89,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Translator\Base64\Base64Translator.cs" />
     <Compile Include="Translator\Bing\AdmAccessToken.cs" />
     <Compile Include="Translator\Bing\AdmAuthentication.cs" />
     <Compile Include="Translator\Bing\BingTranslator.cs" />

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Ex2.FacebookApp.Translator.Bing
+namespace Ex2.FacebookApp.Translator
 {
 	[DataContract]
 	public class AdmAccessToken

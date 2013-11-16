@@ -1,4 +1,4 @@
-namespace Ex2.FacebookApp.Translator.Bing
+namespace Ex2.FacebookApp.Translator
 {
     using System;
     using System.Collections.Generic;
