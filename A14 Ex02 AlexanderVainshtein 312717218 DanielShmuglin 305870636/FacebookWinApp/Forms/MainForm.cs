@@ -19,11 +19,15 @@ namespace Ex2.FacebookApp
     {
         private const eTranslatorType k_DefaultTranslator = eTranslatorType.Dummy;
 
+        private const eTranslationLang k_DefaultTargetLanguage = eTranslationLang.he;
+
+        private const string k_FavoritesTabTitle = "Favorites";
+
         private readonly FavoritesManager m_FavoritesManager;
 
         private readonly Timer m_FeedRefreshTimer = new Timer();
 
-        private readonly Dictionary<eTranslatorType, ITranslator> m_Translators = new Dictionary<eTranslatorType, ITranslator>();
+        private readonly Dictionary<string, ITranslator> m_Translators = new Dictionary<string, ITranslator>();
 
         private class PostWrapper
         {
@@ -36,18 +40,22 @@ namespace Ex2.FacebookApp
 
         private User m_User;
 
-        private eTranslatorType m_TranslatorType = eTranslatorType.Dummy;
+        private eTranslatorType m_SelectedTranslatorType = k_DefaultTranslator;
+
+        private eTranslationLang m_SelectedTargetLanguage = k_DefaultTargetLanguage;
 
         public ITranslator ActiveTranslator
         {
             get
             {
-                if (!m_Translators.ContainsKey(m_TranslatorType))
+                string currentKey = string.Format("{0}.{1}", m_SelectedTranslatorType, m_SelectedTargetLanguage);
+
+                if (!m_Translators.ContainsKey(currentKey))
                 {
-                    m_Translators.Add(m_TranslatorType, TranslatorFactory.Create(m_TranslatorType, "ru"));
+                    m_Translators.Add(currentKey, TranslatorFactory.Create(m_SelectedTranslatorType, m_SelectedTargetLanguage));
                 }
 
-                return m_Translators[m_TranslatorType];
+                return m_Translators[currentKey];
             }
         }
 
@@ -100,7 +108,7 @@ namespace Ex2.FacebookApp
         {
             loadNewFeedAsync();
             loadFavoritesAsync();
-            createTranslatorsMenu();
+            createTranslationMenu();
         }
 
         void m_FeedRefreshTimer_Tick(object sender, EventArgs e)
@@ -195,10 +203,16 @@ namespace Ex2.FacebookApp
 
         private void updateFavoritesTabTitle(int i_FavoritesCount)
         {
-            Utils.UpdateControlText(m_FavoritesTabPage, string.Format("Favorites({0})", i_FavoritesCount));
+            Utils.UpdateControlText(m_FavoritesTabPage, string.Format("{0}({1})", k_FavoritesTabTitle, i_FavoritesCount));
         }
 
-        private void createTranslatorsMenu()
+        private void createTranslationMenu()
+        {
+            addTranslatorsToMenu();
+            addLanguagesToMenu();
+        }
+
+        private void addTranslatorsToMenu()
         {
             foreach (var value in Enum.GetValues(typeof(eTranslatorType)))
             {
@@ -206,7 +220,7 @@ namespace Ex2.FacebookApp
                 var menuItem = new ToolStripMenuItem(translatorType.ToString());
                 menuItem.Click += translatorMenuItem_Click;
                 menuItem.Checked = translatorType == k_DefaultTranslator;
-                m_TranslatorToolStripMenuItem.DropDownItems.Add(menuItem);
+                m_TranslatorsMenuItem.DropDownItems.Add(menuItem);
             }
         }
 
@@ -215,12 +229,39 @@ namespace Ex2.FacebookApp
             var menuItem = sender as ToolStripMenuItem;
             if (menuItem != null)
             {
-                m_TranslatorType = (eTranslatorType)Enum.Parse(typeof(eTranslatorType), menuItem.Text);
-                foreach (var item in m_TranslatorToolStripMenuItem.DropDownItems)
-                {
-                    (item as ToolStripMenuItem).Checked = item == menuItem;
-                }
+                m_SelectedTranslatorType = (eTranslatorType)Enum.Parse(typeof(eTranslatorType), menuItem.Text);
+                checkSelectedItem(m_TranslatorsMenuItem, menuItem);
             }
+        }
+
+        private void addLanguagesToMenu()
+        {
+            foreach (var value in Enum.GetValues(typeof(eTranslationLang)))
+            {
+                var language = (eTranslationLang)value;
+                var menuItem = new ToolStripMenuItem(language.ToString());
+                menuItem.Click += languageMenuItem_Click;
+                menuItem.Checked = language == k_DefaultTargetLanguage;
+                m_LanguagesMenuItem.DropDownItems.Add(menuItem);
+            }
+        }
+
+        private void languageMenuItem_Click(object sender, EventArgs e)
+        {
+            var menuItem = sender as ToolStripMenuItem;
+            if (menuItem != null)
+            {
+                m_SelectedTargetLanguage = (eTranslationLang)Enum.Parse(typeof(eTranslationLang), menuItem.Text);
+                checkSelectedItem(m_LanguagesMenuItem, menuItem);
+            }
+        }
+
+        private void checkSelectedItem(ToolStripMenuItem i_Parent, ToolStripMenuItem i_SelectedItem)
+        {
+            foreach (var item in i_Parent.DropDownItems)
+            {
+                (item as ToolStripMenuItem).Checked = item == i_SelectedItem;
+            }        
         }
     }
 }
