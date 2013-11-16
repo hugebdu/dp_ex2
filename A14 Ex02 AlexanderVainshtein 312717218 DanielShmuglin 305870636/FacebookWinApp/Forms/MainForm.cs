@@ -32,8 +32,8 @@ namespace Ex2.FacebookApp
         }
 
         private FavoritesManager m_FavoritesManager;
-        private readonly Timer m_FeedRefreshTimer = new Timer();
-        private readonly Dictionary<string, ITranslator> m_Translators = new Dictionary<string, ITranslator>();
+        private readonly Timer r_FeedRefreshTimer = new Timer();
+        private readonly Dictionary<string, ITranslator> r_Translators = new Dictionary<string, ITranslator>();
         private User m_User;
         private eTranslatorType m_SelectedTranslatorType = k_DefaultTranslator;
         private eTranslationLang m_SelectedTargetLanguage = k_DefaultTargetLanguage;
@@ -44,12 +44,12 @@ namespace Ex2.FacebookApp
             {
                 string currentKey = string.Format("{0}.{1}", m_SelectedTranslatorType, m_SelectedTargetLanguage);
 
-                if (!m_Translators.ContainsKey(currentKey))
+                if (!r_Translators.ContainsKey(currentKey))
                 {
-                    m_Translators.Add(currentKey, TranslatorFactory.Create(m_SelectedTranslatorType, m_SelectedTargetLanguage));
+                    r_Translators.Add(currentKey, TranslatorFactory.Create(m_SelectedTranslatorType, m_SelectedTargetLanguage));
                 }
 
-                return m_Translators[currentKey];
+                return r_Translators[currentKey];
             }
         }
 
@@ -70,8 +70,8 @@ namespace Ex2.FacebookApp
 
         private void initializeTimer()
         {
-            m_FeedRefreshTimer.Interval = k_RefreshIntervalMs;
-            m_FeedRefreshTimer.Tick += new EventHandler(m_FeedRefreshTimer_Tick);
+            r_FeedRefreshTimer.Interval = k_RefreshIntervalMs;
+            r_FeedRefreshTimer.Tick += new EventHandler(m_FeedRefreshTimer_Tick);
             updateRefreshTimeState();
         }
 
@@ -258,11 +258,11 @@ namespace Ex2.FacebookApp
         {
             if (m_AutoRefreshMenuItem.Checked)
             {
-                m_FeedRefreshTimer.Start();
+                r_FeedRefreshTimer.Start();
             }
             else
             {
-                m_FeedRefreshTimer.Stop();
+                r_FeedRefreshTimer.Stop();
             }
         }
     }

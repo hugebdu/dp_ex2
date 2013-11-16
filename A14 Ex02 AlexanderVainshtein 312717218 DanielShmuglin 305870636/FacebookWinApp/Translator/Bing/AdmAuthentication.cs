@@ -18,7 +18,7 @@ namespace Ex2.FacebookApp.Translator
 	{
         private const int k_RefreshTokenDuration = 9;
         
-        public static readonly string DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+        public const string DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
 
 		private string m_ClientId;
 		private string m_ClientSecret;
