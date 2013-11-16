@@ -72,6 +72,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Storage\IStorableItem.cs" />
+    <Compile Include="Storage\DataStorageFactory.cs" />
     <Compile Include="Storage\XmlFileStorage.cs" />
     <Compile Include="Storage\IDataStorage.cs" />
     <Compile Include="Storage\SimpleStorableItem.cs" />

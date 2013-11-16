@@ -31,7 +31,7 @@
         {
             var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, Environment.SpecialFolderOption.Create), k_AppFolderName);
             string storageFilename = string.Format("favorites_{0}.xml", i_UserId);
-            m_Storage = new XmlFileStorage(Path.Combine(folder, storageFilename));
+            m_Storage = DataStorageFactory.CreateDataStorage(eStorageType.XmlFile, Path.Combine(folder, storageFilename));
         }
 
         public void MarkFavorite(Post i_Post)
