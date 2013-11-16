@@ -58,10 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppInfo.cs" />
-    <Compile Include="EntryForm.cs">
+    <Compile Include="Forms\EntryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EntryForm.Designer.cs">
+    <Compile Include="Forms\EntryForm.Designer.cs">
       <DependentUpon>EntryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Favorites\FavoriteItem.cs" />
@@ -75,16 +75,16 @@
     <Compile Include="Storage\XmlFileStorage.cs" />
     <Compile Include="Storage\IDataStorage.cs" />
     <Compile Include="Storage\SimpleStorableItem.cs" />
-    <Compile Include="LinkViewForm.cs">
+    <Compile Include="Forms\LinkViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LinkViewForm.Designer.cs">
+    <Compile Include="Forms\LinkViewForm.Designer.cs">
       <DependentUpon>LinkViewForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -115,20 +115,20 @@
     <Compile Include="UserControls\UserViewControl.Designer.cs">
       <DependentUpon>UserViewControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserForm.cs">
+    <Compile Include="Forms\UserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserForm.Designer.cs">
+    <Compile Include="Forms\UserForm.Designer.cs">
       <DependentUpon>UserForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\Utils.cs" />
-    <EmbeddedResource Include="EntryForm.resx">
+    <EmbeddedResource Include="Forms\EntryForm.resx">
       <DependentUpon>EntryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LinkViewForm.resx">
+    <EmbeddedResource Include="Forms\LinkViewForm.resx">
       <DependentUpon>LinkViewForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -150,7 +150,7 @@
     <EmbeddedResource Include="UserControls\UserViewControl.resx">
       <DependentUpon>UserViewControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserForm.resx">
+    <EmbeddedResource Include="Forms\UserForm.resx">
       <DependentUpon>UserForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
@@ -179,9 +179,7 @@
   <ItemGroup>
     <None Include="Resources\star.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Forms\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\Delete.png" />
   </ItemGroup>
