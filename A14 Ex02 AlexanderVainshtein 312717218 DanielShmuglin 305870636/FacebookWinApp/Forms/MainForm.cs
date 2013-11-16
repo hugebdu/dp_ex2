@@ -17,6 +17,8 @@ namespace Ex2.FacebookApp
 {
     public partial class MainForm : Form, ITranslatorHost
     {
+        private const eTranslatorType k_DefaultTranslator = eTranslatorType.Dummy;
+
         private readonly FavoritesManager m_FavoritesManager;
 
         private readonly Timer m_FeedRefreshTimer = new Timer();
@@ -98,6 +100,7 @@ namespace Ex2.FacebookApp
         {
             loadNewFeedAsync();
             loadFavoritesAsync();
+            createTranslatorsMenu();
         }
 
         void m_FeedRefreshTimer_Tick(object sender, EventArgs e)
@@ -185,20 +188,6 @@ namespace Ex2.FacebookApp
             this.Close();
         }
 
-        private void m_BingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_TranslatorType = eTranslatorType.Bing;
-            m_DummyToolStripMenuItem.Checked = false;
-            m_BingToolStripMenuItem.Checked = true;
-        }
-
-        private void m_DummyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            m_TranslatorType = eTranslatorType.Dummy;
-            m_DummyToolStripMenuItem.Checked = true;
-            m_BingToolStripMenuItem.Checked = false;
-        }
-
         private void m_RefreshNewsFeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             loadNewFeedAsync();
@@ -207,6 +196,31 @@ namespace Ex2.FacebookApp
         private void updateFavoritesTabTitle(int i_FavoritesCount)
         {
             Utils.UpdateControlText(m_FavoritesTabPage, string.Format("Favorites({0})", i_FavoritesCount));
+        }
+
+        private void createTranslatorsMenu()
+        {
+            foreach (var value in Enum.GetValues(typeof(eTranslatorType)))
+            {
+                var translatorType = (eTranslatorType)value;
+                var menuItem = new ToolStripMenuItem(translatorType.ToString());
+                menuItem.Click += translatorMenuItem_Click;
+                menuItem.Checked = translatorType == k_DefaultTranslator;
+                m_TranslatorToolStripMenuItem.DropDownItems.Add(menuItem);
+            }
+        }
+
+        private void translatorMenuItem_Click(object sender, EventArgs e)
+        {
+            var menuItem = sender as ToolStripMenuItem;
+            if (menuItem != null)
+            {
+                m_TranslatorType = (eTranslatorType)Enum.Parse(typeof(eTranslatorType), menuItem.Text);
+                foreach (var item in m_TranslatorToolStripMenuItem.DropDownItems)
+                {
+                    (item as ToolStripMenuItem).Checked = item == menuItem;
+                }
+            }
         }
     }
 }

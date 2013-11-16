@@ -130,6 +130,7 @@
             this.m_TranslatedPostBody.Size = new System.Drawing.Size(660, 132);
             this.m_TranslatedPostBody.TabIndex = 1;
             this.m_TranslatedPostBody.Text = "";
+            this.m_TranslatedPostBody.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.m_PostBody_LinkClicked);
             // 
             // m_LikesLabel
             // 
