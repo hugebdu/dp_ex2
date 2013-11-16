@@ -11,22 +11,18 @@ using Ex2.FacebookApp.Translator;
 
 namespace Ex2.FacebookApp.UserControls
 {
-    public partial class m_PostItemControl : UserControl
+    public partial class PostItemControl : UserControl
     {
         private LinkViewForm m_LinkViewForm;
-        
+
         private UserForm m_UserForm;
 
         public ITranslatorHost TranslatorHost { get; set; }
 
         private bool m_PostIsTranslated;
 
-        public m_PostItemControl()
-        {
-            InitializeComponent();
-        }
-
         private Post m_Post;
+
         public Post Post
         {
             get
@@ -44,6 +40,56 @@ namespace Ex2.FacebookApp.UserControls
             }
         }
 
+        private FavoritesManager m_FavoritesManager;
+
+        public FavoritesManager FavoritesManager
+        {
+            get
+            {
+                return m_FavoritesManager;
+            }
+            set
+            {
+                if (value != m_FavoritesManager)
+                {
+                    const bool v_Subscribe = true;
+                    registerFavoriteManagerEvents(!v_Subscribe);
+                    m_FavoritesManager = value;
+                    registerFavoriteManagerEvents(v_Subscribe);
+                }
+            }
+        }
+
+        public bool IsFavorite
+        {
+            get
+            {
+                return FavoritesManager != null ? FavoritesManager.GetFavoritePosts().Any(post => post.Id == m_Post.Id) : false;
+            }
+            set
+            {
+                if (FavoritesManager == null)
+                {
+                    return;
+                }
+
+                if (value)
+                {
+                    FavoritesManager.MarkFavorite(m_Post);
+                }
+                else
+                {
+                    FavoritesManager.UnmarkFavorite(m_Post);
+                }
+
+                updateIsFavoriteView();
+            }
+        }
+
+        public PostItemControl()
+        {
+            InitializeComponent();
+        }
 
         private void updateView()
         {
@@ -60,12 +106,14 @@ namespace Ex2.FacebookApp.UserControls
                 }
             }
 
-            m_PostBody.Text = m_Post == null ? string.Empty : m_Post.Message;
-            m_Name.Text = m_Post == null || m_Post.From == null ? string.Empty : m_Post.From.Name;
-            m_LikesCountLabel.Text = likesCount.ToString();
-            m_UserPicture.Image = m_Post == null || m_Post.From == null ? null : m_Post.From.ImageNormal;
+            Utils.UpdateControlText(m_PostBody, m_Post == null ? string.Empty : m_Post.Message);
+            Utils.UpdateControlText(m_Name, m_Post == null || m_Post.From == null ? string.Empty : m_Post.From.Name);
+            Utils.UpdateControlText(m_LikesCountLabel, likesCount.ToString());
+            Utils.UpdateImage(m_UserPicture, m_Post == null || m_Post.From == null ? null : m_Post.From.ImageNormal);
+            Utils.UpdateControlText(m_CreationDateLabel, m_Post == null || !m_Post.CreatedTime.HasValue ? null : m_Post.CreatedTime.Value.ToString());
+            updateIsFavoriteView();
         }
-        
+
         private void m_TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (m_PostIsTranslated || TranslatorHost == null || TranslatorHost.ActiveTranslator == null)
@@ -125,6 +173,61 @@ namespace Ex2.FacebookApp.UserControls
             {
                 var postUrl = string.Format("http://www.facebook.com/{0}", m_Post.Id);
                 Process.Start(postUrl);
+            }
+        }
+
+        private void m_FavoriteBox_Click(object sender, EventArgs e)
+        {
+            if (FavoritesManager != null)
+            {
+                IsFavorite = !IsFavorite;
+            }
+        }
+
+        private void updateIsFavoriteView()
+        {
+            if (IsFavorite)
+            {
+                m_FavoriteBox.Image = Properties.Resources.star;
+            }
+            else
+            {
+                m_FavoriteBox.Image = Properties.Resources.empty_star;
+            }
+        }
+
+        private void registerFavoriteManagerEvents(bool i_Subscribe)
+        {
+            if (m_FavoritesManager == null)
+            {
+                return;
+            }
+
+            if (i_Subscribe)
+            {
+                m_FavoritesManager.FavoriteAdded += m_FavoritesManager_FavoriteAdded;
+                m_FavoritesManager.FavoriteRemoved += m_FavoritesManager_FavoriteRemoved;
+            }
+            else
+            {
+                m_FavoritesManager.FavoriteAdded -= m_FavoritesManager_FavoriteAdded;
+                m_FavoritesManager.FavoriteRemoved -= m_FavoritesManager_FavoriteRemoved;
+            }
+        }
+
+        void m_FavoritesManager_FavoriteRemoved(object i_Sender, Post i_Post)
+        {
+            if (i_Post.Id == Post.Id)
+            {
+                updateIsFavoriteView();
+            }
+        }
+
+        void m_FavoritesManager_FavoriteAdded(object i_Sender, Post i_Post)
+        {
+            if (i_Post.Id == Post.Id)
+            {
+                updateIsFavoriteView();
             }
         }
     }

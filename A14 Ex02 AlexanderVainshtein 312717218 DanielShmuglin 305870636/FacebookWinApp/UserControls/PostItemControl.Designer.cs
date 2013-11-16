@@ -1,6 +1,6 @@
 ﻿namespace Ex2.FacebookApp.UserControls
 {
-    partial class m_PostItemControl
+    partial class PostItemControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -37,14 +37,17 @@
             this.m_TranslatedPostBody = new System.Windows.Forms.RichTextBox();
             this.m_LikesLabel = new System.Windows.Forms.Label();
             this.m_LeftPanel = new System.Windows.Forms.Panel();
-            this.m_ViewPostLink = new System.Windows.Forms.LinkLabel();
-            this.m_UserPicture = new System.Windows.Forms.PictureBox();
             this.m_LikesCountLabel = new System.Windows.Forms.Label();
+            this.m_ViewPostLink = new System.Windows.Forms.LinkLabel();
+            this.m_CreationDateLabel = new System.Windows.Forms.Label();
+            this.m_FavoriteBox = new System.Windows.Forms.PictureBox();
+            this.m_UserPicture = new System.Windows.Forms.PictureBox();
             this.m_BodyPannel.SuspendLayout();
             this.m_TabControl.SuspendLayout();
             this.m_OriginalTab.SuspendLayout();
             this.m_TranslatedTab.SuspendLayout();
             this.m_LeftPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.m_FavoriteBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_UserPicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,9 +68,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.m_BodyPannel.Controls.Add(this.m_TabControl);
-            this.m_BodyPannel.Location = new System.Drawing.Point(107, 0);
+            this.m_BodyPannel.Location = new System.Drawing.Point(127, 0);
             this.m_BodyPannel.Name = "m_BodyPannel";
-            this.m_BodyPannel.Size = new System.Drawing.Size(694, 144);
+            this.m_BodyPannel.Size = new System.Drawing.Size(674, 164);
             this.m_BodyPannel.TabIndex = 3;
             // 
             // m_TabControl
@@ -78,7 +81,7 @@
             this.m_TabControl.Location = new System.Drawing.Point(0, 0);
             this.m_TabControl.Name = "m_TabControl";
             this.m_TabControl.SelectedIndex = 0;
-            this.m_TabControl.Size = new System.Drawing.Size(694, 144);
+            this.m_TabControl.Size = new System.Drawing.Size(674, 164);
             this.m_TabControl.TabIndex = 5;
             this.m_TabControl.SelectedIndexChanged += new System.EventHandler(this.m_TabControl_SelectedIndexChanged);
             // 
@@ -88,7 +91,7 @@
             this.m_OriginalTab.Location = new System.Drawing.Point(4, 22);
             this.m_OriginalTab.Name = "m_OriginalTab";
             this.m_OriginalTab.Padding = new System.Windows.Forms.Padding(3);
-            this.m_OriginalTab.Size = new System.Drawing.Size(686, 118);
+            this.m_OriginalTab.Size = new System.Drawing.Size(666, 138);
             this.m_OriginalTab.TabIndex = 0;
             this.m_OriginalTab.Text = "Original";
             this.m_OriginalTab.UseVisualStyleBackColor = true;
@@ -100,7 +103,7 @@
             this.m_PostBody.Location = new System.Drawing.Point(3, 3);
             this.m_PostBody.Name = "m_PostBody";
             this.m_PostBody.ReadOnly = true;
-            this.m_PostBody.Size = new System.Drawing.Size(680, 112);
+            this.m_PostBody.Size = new System.Drawing.Size(660, 132);
             this.m_PostBody.TabIndex = 0;
             this.m_PostBody.Text = "";
             this.m_PostBody.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.m_PostBody_LinkClicked);
@@ -111,7 +114,7 @@
             this.m_TranslatedTab.Location = new System.Drawing.Point(4, 22);
             this.m_TranslatedTab.Name = "m_TranslatedTab";
             this.m_TranslatedTab.Padding = new System.Windows.Forms.Padding(3);
-            this.m_TranslatedTab.Size = new System.Drawing.Size(687, 118);
+            this.m_TranslatedTab.Size = new System.Drawing.Size(666, 138);
             this.m_TranslatedTab.TabIndex = 1;
             this.m_TranslatedTab.Tag = "TranslationTarget";
             this.m_TranslatedTab.Text = "Translated";
@@ -124,7 +127,7 @@
             this.m_TranslatedPostBody.Location = new System.Drawing.Point(3, 3);
             this.m_TranslatedPostBody.Name = "m_TranslatedPostBody";
             this.m_TranslatedPostBody.ReadOnly = true;
-            this.m_TranslatedPostBody.Size = new System.Drawing.Size(681, 112);
+            this.m_TranslatedPostBody.Size = new System.Drawing.Size(660, 132);
             this.m_TranslatedPostBody.TabIndex = 1;
             this.m_TranslatedPostBody.Text = "";
             // 
@@ -141,6 +144,8 @@
             // 
             this.m_LeftPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.m_LeftPanel.Controls.Add(this.m_CreationDateLabel);
+            this.m_LeftPanel.Controls.Add(this.m_FavoriteBox);
             this.m_LeftPanel.Controls.Add(this.m_LikesCountLabel);
             this.m_LeftPanel.Controls.Add(this.m_ViewPostLink);
             this.m_LeftPanel.Controls.Add(this.m_UserPicture);
@@ -148,8 +153,17 @@
             this.m_LeftPanel.Controls.Add(this.m_Name);
             this.m_LeftPanel.Location = new System.Drawing.Point(3, 3);
             this.m_LeftPanel.Name = "m_LeftPanel";
-            this.m_LeftPanel.Size = new System.Drawing.Size(104, 140);
+            this.m_LeftPanel.Size = new System.Drawing.Size(118, 160);
             this.m_LeftPanel.TabIndex = 6;
+            // 
+            // m_LikesCountLabel
+            // 
+            this.m_LikesCountLabel.AutoSize = true;
+            this.m_LikesCountLabel.Location = new System.Drawing.Point(37, 121);
+            this.m_LikesCountLabel.Name = "m_LikesCountLabel";
+            this.m_LikesCountLabel.Size = new System.Drawing.Size(13, 13);
+            this.m_LikesCountLabel.TabIndex = 7;
+            this.m_LikesCountLabel.Text = "0";
             // 
             // m_ViewPostLink
             // 
@@ -162,38 +176,51 @@
             this.m_ViewPostLink.Text = "View post in FB";
             this.m_ViewPostLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.m_ViewPostLink_LinkClicked);
             // 
+            // m_CreationDateLabel
+            // 
+            this.m_CreationDateLabel.AutoSize = true;
+            this.m_CreationDateLabel.Location = new System.Drawing.Point(-1, 141);
+            this.m_CreationDateLabel.Name = "m_CreationDateLabel";
+            this.m_CreationDateLabel.Size = new System.Drawing.Size(78, 13);
+            this.m_CreationDateLabel.TabIndex = 9;
+            this.m_CreationDateLabel.Text = "[Creation Date]";
+            // 
+            // m_FavoriteBox
+            // 
+            this.m_FavoriteBox.Image = global::Ex2.FacebookApp.Properties.Resources.empty_star;
+            this.m_FavoriteBox.InitialImage = global::Ex2.FacebookApp.Properties.Resources.empty_star;
+            this.m_FavoriteBox.Location = new System.Drawing.Point(86, 114);
+            this.m_FavoriteBox.Name = "m_FavoriteBox";
+            this.m_FavoriteBox.Size = new System.Drawing.Size(25, 23);
+            this.m_FavoriteBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.m_FavoriteBox.TabIndex = 8;
+            this.m_FavoriteBox.TabStop = false;
+            this.m_FavoriteBox.Click += new System.EventHandler(this.m_FavoriteBox_Click);
+            // 
             // m_UserPicture
             // 
-            this.m_UserPicture.Location = new System.Drawing.Point(3, 3);
+            this.m_UserPicture.Location = new System.Drawing.Point(9, 3);
             this.m_UserPicture.Name = "m_UserPicture";
             this.m_UserPicture.Size = new System.Drawing.Size(98, 73);
             this.m_UserPicture.TabIndex = 0;
             this.m_UserPicture.TabStop = false;
             // 
-            // m_LikesCountLabel
-            // 
-            this.m_LikesCountLabel.AutoSize = true;
-            this.m_LikesCountLabel.Location = new System.Drawing.Point(37, 121);
-            this.m_LikesCountLabel.Name = "m_LikesCountLabel";
-            this.m_LikesCountLabel.Size = new System.Drawing.Size(13, 13);
-            this.m_LikesCountLabel.TabIndex = 7;
-            this.m_LikesCountLabel.Text = "0";
-            // 
-            // m_PostItemControl
+            // PostItemControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.m_LeftPanel);
             this.Controls.Add(this.m_BodyPannel);
             this.DoubleBuffered = true;
-            this.Name = "m_PostItemControl";
-            this.Size = new System.Drawing.Size(804, 147);
+            this.Name = "PostItemControl";
+            this.Size = new System.Drawing.Size(804, 167);
             this.m_BodyPannel.ResumeLayout(false);
             this.m_TabControl.ResumeLayout(false);
             this.m_OriginalTab.ResumeLayout(false);
             this.m_TranslatedTab.ResumeLayout(false);
             this.m_LeftPanel.ResumeLayout(false);
             this.m_LeftPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.m_FavoriteBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.m_UserPicture)).EndInit();
             this.ResumeLayout(false);
 
@@ -213,5 +240,7 @@
         private System.Windows.Forms.Panel m_LeftPanel;
         private System.Windows.Forms.LinkLabel m_ViewPostLink;
         private System.Windows.Forms.Label m_LikesCountLabel;
+        private System.Windows.Forms.PictureBox m_FavoriteBox;
+        private System.Windows.Forms.Label m_CreationDateLabel;
     }
 }

@@ -16,9 +16,9 @@
         {
             Id = i_Post.Id;
             Data = DateTime.Now.Ticks.ToString();
-            Name = i_Post.From.Name;
+            AddingDateAsTicks = DateTime.Now.Ticks;
         }
 
-        public string Name { get; set; }
+        public long AddingDateAsTicks { get; set; }
     }
 }
