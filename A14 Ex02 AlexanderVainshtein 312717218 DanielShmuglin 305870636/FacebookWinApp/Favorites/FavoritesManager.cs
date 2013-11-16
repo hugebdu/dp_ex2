@@ -18,16 +18,13 @@
         public event FavoriteChangeEventHandler FavoriteRemoved;
 
         private IDataStorage m_Storage;
-
         private readonly Dictionary<string, Tuple<FavoriteItem, Post>> r_FavoritePosts = new Dictionary<string, Tuple<FavoriteItem, Post>>();
-
-        private Task m_LoadFavoritesTask;
+        private bool m_FavoritesLoaded = false;
+        private readonly object r_FavoritesLoadingContext = new object();
 
         public FavoritesManager(string i_UserId)
         {
             initializeStorage(i_UserId);
-            m_LoadFavoritesTask = new Task(loadFavorites);
-            m_LoadFavoritesTask.Start();
         }
 
         private void initializeStorage(string i_UserId)
@@ -39,7 +36,7 @@
 
         public void MarkFavorite(Post i_Post)
         {
-            m_LoadFavoritesTask.Wait();
+            ensureFavoritesLoaded(); 
             if (r_FavoritePosts.ContainsKey(i_Post.Id))
             {
                 r_FavoritePosts.Remove(i_Post.Id);
@@ -52,7 +49,7 @@
 
         public void UnmarkFavorite(Post i_Post)
         {
-            m_LoadFavoritesTask.Wait();
+            ensureFavoritesLoaded();
             if (r_FavoritePosts.ContainsKey(i_Post.Id))
             {
                 r_FavoritePosts.Remove(i_Post.Id);
@@ -62,18 +59,27 @@
             OnFavoriteRemoved(i_Post);
         }
 
-        public IEnumerable<Post> GetFavoritePosts()
+        public void GetFavoritePostsAsync(Action<IEnumerable<Post>> i_Callback)
         {
-            m_LoadFavoritesTask.Wait();
-            var postsInfo = r_FavoritePosts.Values.ToList();
-            postsInfo.Sort(postsComparison);
-            foreach (var postInfo in postsInfo)
+            new Task(() =>
             {
-                yield return postInfo.Item2;
-            }
+                var posts = GetFavoritePosts();
+                if (i_Callback != null)
+                {
+                    i_Callback(posts);
+                }
+            }).Start();
         }
 
-        private int postsComparison(Tuple<FavoriteItem, Post> i_Tuple1, Tuple<FavoriteItem, Post> i_Tuple2)
+        public IEnumerable<Post> GetFavoritePosts()
+        {
+            ensureFavoritesLoaded();
+            var postsInfo = r_FavoritePosts.Values.ToList();
+            postsInfo.Sort(postsComparisonByCreateTimeDesc);
+            return postsInfo.Select(pair => pair.Item2);
+        }
+
+        private int postsComparisonByCreateTimeDesc(Tuple<FavoriteItem, Post> i_Tuple1, Tuple<FavoriteItem, Post> i_Tuple2)
         {
             var creationTime1 = i_Tuple1.Item2.CreatedTime.HasValue ? i_Tuple1.Item2.CreatedTime.Value.Ticks : 0;
             var creationTime2 = i_Tuple2.Item2.CreatedTime.HasValue ? i_Tuple2.Item2.CreatedTime.Value.Ticks : 0;
@@ -97,29 +103,47 @@
             }
         }
 
+        private void ensureFavoritesLoaded()
+        {
+            if (!m_FavoritesLoaded)
+            {
+                loadFavorites();
+            }
+        }
+
         private void loadFavorites()
         {
-            foreach (FavoriteItem favoriteItem in m_Storage.GetItems())
+            lock (r_FavoritesLoadingContext)
             {
-                if (!r_FavoritePosts.ContainsKey(favoriteItem.Id))
+                if (m_FavoritesLoaded)
                 {
-                    Post post = null;
-                    try
-                    {
-                        post = FacebookWrapper.FacebookService.GetObject<Post>(favoriteItem.Id);
-                    }
-                    catch (Exception)
-                    { 
-                        // Log error
-                    }
-                    
-                    if (post == null)
-                    {
-                        continue;
-                    }
-
-                    r_FavoritePosts.Add(favoriteItem.Id, new Tuple<FavoriteItem, Post>(favoriteItem, post));
+                    return;
                 }
+
+                r_FavoritePosts.Clear();
+
+                foreach (FavoriteItem favoriteItem in m_Storage.GetItems())
+                {
+                    if (!r_FavoritePosts.ContainsKey(favoriteItem.Id))
+                    {
+                        Post post = null;
+                        try
+                        {
+                            post = FacebookWrapper.FacebookService.GetObject<Post>(favoriteItem.Id);
+                        }
+                        catch (Facebook.FacebookApiException)
+                        {
+                            // Log error
+                        }
+
+                        if (post != null)
+                        {
+                            r_FavoritePosts.Add(favoriteItem.Id, new Tuple<FavoriteItem, Post>(favoriteItem, post));
+                        }
+                    }
+                }
+
+                m_FavoritesLoaded = true;
             }
         }
     }

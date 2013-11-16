@@ -118,9 +118,14 @@ namespace Ex2.FacebookApp
 
         private void loadFavorites()
         {
-            var posts = m_FavoritesManager.GetFavoritePosts().Select(post => createPostWrapper(post)).ToList();
-            updatePostRepeater(m_FavoritesRepeater, m_FavoritePostTemplate, posts);
-            updateFavoritesTabTitle(posts.Count);
+            m_FavoritesManager.GetFavoritePostsAsync(
+                new Action<IEnumerable<Post>>(
+                    (result) =>
+                    {
+                        var posts = result.Select(post => createPostWrapper(post)).ToList();
+                        updatePostRepeater(m_FavoritesRepeater, m_FavoritePostTemplate, posts);
+                        updateFavoritesTabTitle(posts.Count);
+                    }));
         }
 
         private PostWrapper createPostWrapper(Post i_Post)

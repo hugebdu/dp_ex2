@@ -48,7 +48,7 @@ namespace Ex2.FacebookApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ooooops! Error occured! " + ex.Message);
+                MessageBox.Show("Ooooops! Error occured! " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
