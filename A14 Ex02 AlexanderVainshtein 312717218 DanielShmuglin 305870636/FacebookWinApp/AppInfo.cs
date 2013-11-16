@@ -7,7 +7,7 @@
 
     public class AppInfo
     {
-        public const string AppID =  "537339166355791";
+        public const string AppID = "537339166355791";
         public const string UserAboutMe = "user_about_me";
         public const string FriendsAboutMe = "friends_about_me";
         public const string PublishStream = "publish_stream";

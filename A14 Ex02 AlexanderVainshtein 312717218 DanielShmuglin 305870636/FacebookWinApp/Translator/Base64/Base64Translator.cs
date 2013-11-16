@@ -31,7 +31,7 @@
 
             public string OriginText
             {
-                get 
+                get
                 {
                     return m_Text;
                 }
@@ -39,7 +39,7 @@
 
             public bool IsTranslated
             {
-                get 
+                get
                 {
                     return true;
                 }
@@ -47,7 +47,7 @@
 
             public string TranslatedText
             {
-                get 
+                get
                 {
                     return toBase64String(m_Text);
                 }
@@ -55,21 +55,21 @@
 
             public string TranslatedOrOriginText
             {
-                get 
+                get
                 {
-                    return TranslatedText; 
+                    return TranslatedText;
                 }
             }
 
             public string SourceLanguageCode
             {
-                get 
+                get
                 {
                     return "he";
                 }
             }
 
-            private String toBase64String(string i_Text)
+            private string toBase64String(string i_Text)
             {
                 return Convert.ToBase64String(Encoding.Unicode.GetBytes(i_Text));
             }
