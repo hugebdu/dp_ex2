@@ -37,7 +37,6 @@
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.opeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_RefreshNewsFeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reloadFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_AutoRefreshMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,7 +119,6 @@
             // 
             this.opeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.m_RefreshNewsFeedToolStripMenuItem,
-            this.reloadFavoritesToolStripMenuItem,
             this.optionsToolStripMenuItem,
             this.m_ExitToolStripMenuItem});
             this.opeToolStripMenuItem.Name = "opeToolStripMenuItem";
@@ -132,12 +130,6 @@
             this.m_RefreshNewsFeedToolStripMenuItem.Name = "m_RefreshNewsFeedToolStripMenuItem";
             this.m_RefreshNewsFeedToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.m_RefreshNewsFeedToolStripMenuItem.Text = "Refresh News Feed";
-            // 
-            // reloadFavoritesToolStripMenuItem
-            // 
-            this.reloadFavoritesToolStripMenuItem.Name = "reloadFavoritesToolStripMenuItem";
-            this.reloadFavoritesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
-            this.reloadFavoritesToolStripMenuItem.Text = "Refresh Favorites";
             // 
             // optionsToolStripMenuItem
             // 
@@ -305,7 +297,6 @@
         private System.Windows.Forms.ToolStripMenuItem removeFromFavoritesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem m_TranslatorsMenuItem;
         private System.Windows.Forms.ToolStripMenuItem m_RefreshNewsFeedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem reloadFavoritesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem m_LanguagesMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem m_AutoRefreshMenuItem;

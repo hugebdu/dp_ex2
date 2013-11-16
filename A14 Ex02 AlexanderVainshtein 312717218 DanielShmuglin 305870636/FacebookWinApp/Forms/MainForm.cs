@@ -113,11 +113,6 @@ namespace Ex2.FacebookApp
 
         private void loadFavoritesAsync()
         {
-            new Task(loadFavorites).Start();
-        }
-
-        private void loadFavorites()
-        {
             m_FavoritesManager.GetFavoritePostsAsync(
                 new Action<IEnumerable<Post>>(
                     (result) =>
@@ -173,11 +168,6 @@ namespace Ex2.FacebookApp
                 m_FavoritesManager.UnmarkFavorite(sourceControl.Post);
                 loadFavoritesAsync();
             }
-        }
-
-        private void reloadFavoritesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            loadFavoritesAsync();
         }
 
         private void m_ExitToolStripMenuItem_Click(object sender, EventArgs e)
