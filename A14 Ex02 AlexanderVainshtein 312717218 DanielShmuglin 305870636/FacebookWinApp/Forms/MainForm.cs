@@ -18,16 +18,9 @@ namespace Ex2.FacebookApp
     public partial class MainForm : Form, ITranslatorHost
     {
         private const eTranslatorType k_DefaultTranslator = eTranslatorType.Dummy;
-
         private const eTranslationLang k_DefaultTargetLanguage = eTranslationLang.he;
-
         private const string k_FavoritesTabTitle = "Favorites";
-
-        private readonly FavoritesManager m_FavoritesManager;
-
-        private readonly Timer m_FeedRefreshTimer = new Timer();
-
-        private readonly Dictionary<string, ITranslator> m_Translators = new Dictionary<string, ITranslator>();
+        private const int k_RefreshIntervalMs = 60000;
 
         private class PostWrapper
         {
@@ -38,10 +31,11 @@ namespace Ex2.FacebookApp
             public FavoritesManager FavoritesManager { get; set; }
         }
 
+        private FavoritesManager m_FavoritesManager;
+        private readonly Timer m_FeedRefreshTimer = new Timer();
+        private readonly Dictionary<string, ITranslator> m_Translators = new Dictionary<string, ITranslator>();
         private User m_User;
-
         private eTranslatorType m_SelectedTranslatorType = k_DefaultTranslator;
-
         private eTranslationLang m_SelectedTargetLanguage = k_DefaultTargetLanguage;
 
         public ITranslator ActiveTranslator
@@ -64,10 +58,28 @@ namespace Ex2.FacebookApp
             m_User = i_LoginResult.LoggedInUser;
             InitializeComponent();
             initializeTimer();
+            initializeFavoritesManager();
+        }
 
+        private void initializeFavoritesManager()
+        {
             m_FavoritesManager = new FavoritesManager(m_User.Id);
             m_FavoritesManager.FavoriteAdded += m_FavoritesManager_FavoriteAdded;
             m_FavoritesManager.FavoriteRemoved += m_FavoritesManager_FavoriteRemoved;
+        }
+
+        private void initializeTimer()
+        {
+            m_FeedRefreshTimer.Interval = k_RefreshIntervalMs;
+            m_FeedRefreshTimer.Tick += new EventHandler(m_FeedRefreshTimer_Tick);
+            updateRefreshTimeState();
+        }
+
+        private void MainWin_Load(object sender, EventArgs e)
+        {
+            loadNewFeedAsync();
+            loadFavoritesAsync();
+            createTranslationMenu();
         }
 
         private void m_FavoritesManager_FavoriteRemoved(object i_Sender, Post i_Post)
@@ -83,37 +95,9 @@ namespace Ex2.FacebookApp
             loadFavoritesAsync();
         }
 
-        private Control getControlForPost(Post i_Post)
-        {
-            foreach (Control control in m_FavoritesRepeater.Controls)
-            {
-                var postControl = control.Controls[0] as PostItemControl;
-                if (postControl.Post.Id == i_Post.Id)
-                {
-                    return control;
-                }
-            }
-
-            return null;
-        }
-
-        private void initializeTimer()
-        {
-            m_FeedRefreshTimer.Interval = 60000;
-            m_FeedRefreshTimer.Tick += new EventHandler(m_FeedRefreshTimer_Tick);
-            // m_FeedRefreshTimer.Start();
-        }
-
-        private void MainWin_Load(object sender, EventArgs e)
-        {
-            loadNewFeedAsync();
-            loadFavoritesAsync();
-            createTranslationMenu();
-        }
-
         void m_FeedRefreshTimer_Tick(object sender, EventArgs e)
         {
-            loadNewsFeed();
+            loadNewFeedAsync();
         }
 
         private void loadNewFeedAsync()
@@ -261,7 +245,25 @@ namespace Ex2.FacebookApp
             foreach (var item in i_Parent.DropDownItems)
             {
                 (item as ToolStripMenuItem).Checked = item == i_SelectedItem;
-            }        
+            }
+        }
+
+        private void m_AutoRefreshMenuItem_Click(object sender, EventArgs e)
+        {
+            m_AutoRefreshMenuItem.Checked = !m_AutoRefreshMenuItem.Checked;
+            updateRefreshTimeState();
+        }
+
+        private void updateRefreshTimeState()
+        {
+            if (m_AutoRefreshMenuItem.Checked)
+            {
+                m_FeedRefreshTimer.Start();
+            }
+            else
+            {
+                m_FeedRefreshTimer.Stop();
+            }
         }
     }
 }

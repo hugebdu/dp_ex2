@@ -38,9 +38,12 @@
             this.opeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_RefreshNewsFeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_AutoRefreshMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_ExitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_TranslationMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.m_TranslatorsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.m_LanguagesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_PostsTabControl = new System.Windows.Forms.TabControl();
             this.m_NewsFeedTabPage = new System.Windows.Forms.TabPage();
             this.m_FavoritesTabPage = new System.Windows.Forms.TabPage();
@@ -48,7 +51,6 @@
             this.m_FavoritePostTemplate = new Ex2.FacebookApp.UserControls.PostItemControl();
             this.favoritePostMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeFromFavoritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.m_LanguagesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.m_NewsFeedRepeater.ItemTemplate.SuspendLayout();
             this.m_NewsFeedRepeater.SuspendLayout();
             this.postMenuStrip.SuspendLayout();
@@ -119,6 +121,7 @@
             this.opeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.m_RefreshNewsFeedToolStripMenuItem,
             this.reloadFavoritesToolStripMenuItem,
+            this.optionsToolStripMenuItem,
             this.m_ExitToolStripMenuItem});
             this.opeToolStripMenuItem.Name = "opeToolStripMenuItem";
             this.opeToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
@@ -135,6 +138,21 @@
             this.reloadFavoritesToolStripMenuItem.Name = "reloadFavoritesToolStripMenuItem";
             this.reloadFavoritesToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.reloadFavoritesToolStripMenuItem.Text = "Refresh Favorites";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.m_AutoRefreshMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // m_AutoRefreshMenuItem
+            // 
+            this.m_AutoRefreshMenuItem.Name = "m_AutoRefreshMenuItem";
+            this.m_AutoRefreshMenuItem.Size = new System.Drawing.Size(195, 22);
+            this.m_AutoRefreshMenuItem.Text = "Auto refresh news feed";
+            this.m_AutoRefreshMenuItem.Click += new System.EventHandler(this.m_AutoRefreshMenuItem_Click);
             // 
             // m_ExitToolStripMenuItem
             // 
@@ -157,6 +175,12 @@
             this.m_TranslatorsMenuItem.Name = "m_TranslatorsMenuItem";
             this.m_TranslatorsMenuItem.Size = new System.Drawing.Size(160, 22);
             this.m_TranslatorsMenuItem.Text = "Translator";
+            // 
+            // m_LanguagesMenuItem
+            // 
+            this.m_LanguagesMenuItem.Name = "m_LanguagesMenuItem";
+            this.m_LanguagesMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.m_LanguagesMenuItem.Text = "Target language";
             // 
             // m_PostsTabControl
             // 
@@ -234,12 +258,6 @@
             this.removeFromFavoritesToolStripMenuItem.Text = "Remove from favorites";
             this.removeFromFavoritesToolStripMenuItem.Click += new System.EventHandler(this.removeFromFavoritesToolStripMenuItem_Click);
             // 
-            // m_LanguagesMenuItem
-            // 
-            this.m_LanguagesMenuItem.Name = "m_LanguagesMenuItem";
-            this.m_LanguagesMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.m_LanguagesMenuItem.Text = "Target language";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -289,5 +307,7 @@
         private System.Windows.Forms.ToolStripMenuItem m_RefreshNewsFeedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadFavoritesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem m_LanguagesMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem m_AutoRefreshMenuItem;
     }
 }
