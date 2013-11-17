@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ex2.FacebookApp.Properties {
+namespace Ex2.FacebookApp.Model.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -32,12 +32,15 @@ namespace Ex2.FacebookApp.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("ubJB8b5HFVOgV8Z1i1xY4vKI7hd613JzBRWt9Ip0CNM=")]
         public string BingTranslateSecretKey {
             get {
                 return ((string)(this["BingTranslateSecretKey"]));
+            }
+            set {
+                this["BingTranslateSecretKey"] = value;
             }
         }
     }

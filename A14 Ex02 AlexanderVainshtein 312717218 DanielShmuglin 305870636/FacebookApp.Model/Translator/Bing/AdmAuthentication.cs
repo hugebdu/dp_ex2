@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 
-namespace Ex2.FacebookApp.Translator
+namespace Ex2.FacebookApp.Model.Translator
 {
 	/// <summary>
 	/// http://msdn.microsoft.com/en-us/library/ff512437.aspx

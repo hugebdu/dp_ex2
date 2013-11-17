@@ -1,4 +1,4 @@
-namespace Ex2.FacebookApp.Translator
+namespace Ex2.FacebookApp.Model.Translator
 {
     using System;
     using System.Collections.Generic;
@@ -7,9 +7,9 @@ namespace Ex2.FacebookApp.Translator
     using System.Threading;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
-    using Ex2.FacebookApp.MicrosoftTranslator;
-    using Ex2.FacebookApp.Properties;
-
+    using Ex2.FacebookApp.Model.MicrosoftTranslator;
+    using Ex2.FacebookApp.Model.Properties;
+    
     public class BingTranslator : ITranslator, IDisposable
     {
         private readonly AdmAuthentication r_Authentication;

@@ -1,4 +1,4 @@
-﻿namespace Ex2.FacebookApp
+﻿namespace Ex2.FacebookApp.Model
 {
     using System;
     using System.Collections.Generic;
@@ -134,6 +134,8 @@
                         catch (Facebook.FacebookApiException)
                         {
                             // Log error
+                            // Post could be deleted. 
+                            // TODO: Implement remove such posts from favorites after some number of loading attempts
                         }
 
                         if (post != null)

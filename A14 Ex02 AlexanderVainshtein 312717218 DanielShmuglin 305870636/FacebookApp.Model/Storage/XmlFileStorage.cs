@@ -1,4 +1,4 @@
-﻿namespace Ex2.FacebookApp
+﻿namespace Ex2.FacebookApp.Model
 {
     using System;
     using System.Collections.Generic;

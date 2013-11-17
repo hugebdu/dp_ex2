@@ -7,7 +7,8 @@ using System.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
 using FacebookWrapper.ObjectModel;
-using Ex2.FacebookApp.Translator;
+using Ex2.FacebookApp.Model;
+using Ex2.FacebookApp.Model.Translator;
 
 namespace Ex2.FacebookApp.UserControls
 {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ex2.FacebookApp.MicrosoftTranslator {
+namespace Ex2.FacebookApp.Model.MicrosoftTranslator {
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -31,12 +31,12 @@ namespace Ex2.FacebookApp.MicrosoftTranslator {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface LanguageServiceChannel : Ex2.FacebookApp.MicrosoftTranslator.LanguageService, System.ServiceModel.IClientChannel {
+    public interface LanguageServiceChannel : Ex2.FacebookApp.Model.MicrosoftTranslator.LanguageService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class LanguageServiceClient : System.ServiceModel.ClientBase<Ex2.FacebookApp.MicrosoftTranslator.LanguageService>, Ex2.FacebookApp.MicrosoftTranslator.LanguageService {
+    public partial class LanguageServiceClient : System.ServiceModel.ClientBase<Ex2.FacebookApp.Model.MicrosoftTranslator.LanguageService>, Ex2.FacebookApp.Model.MicrosoftTranslator.LanguageService {
         
         public LanguageServiceClient() {
         }
