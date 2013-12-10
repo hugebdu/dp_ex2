@@ -159,29 +159,6 @@ namespace Ex2.FacebookApp.UserControls
             Utils.UpdateRtfText(m_PostBody, rftBodyHelper.RtfText);
         }
 
-        private string getString(string text)
-        {
-            return @"{\rtf{\fonttbl {\f0 Times New Roman;}}\f0\fs25 \b " + getRtfUnicodeEscapedString(text) + @" \b0 abc }";
-        }
-
-        private string getRtfUnicodeEscapedString(string i_String)
-        {
-            var sb = new StringBuilder();
-            foreach (var oneChar in i_String)
-            {
-                if (oneChar <= 0x7f)
-                {
-                    sb.Append(oneChar);
-                }
-                else
-                {
-                    sb.Append("\\u" + Convert.ToUInt32(oneChar) + "?");
-                }
-            }
-
-            return sb.ToString();
-        }
-
         private void m_TabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (m_PostIsTranslated || TranslatorHost == null || TranslatorHost.ActiveTranslator == null)
@@ -260,14 +237,7 @@ namespace Ex2.FacebookApp.UserControls
 
         private void updateIsFavoriteView()
         {
-            if (IsFavorite)
-            {
-                m_FavoriteBox.Image = Properties.Resources.star;
-            }
-            else
-            {
-                m_FavoriteBox.Image = Properties.Resources.empty_star;
-            }
+            m_FavoriteBox.Image = IsFavorite ? Properties.Resources.star : m_FavoriteBox.Image = Properties.Resources.empty_star;
         }
 
         private void registerFavoriteManagerEvents(bool i_Subscribe)
